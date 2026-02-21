@@ -275,11 +275,8 @@ body {
 /* ROW normal jogos */
 .games-scroll {
   display: flex;
-  flex-wrap: wrap; /* <- adiciona essa linha */
-  gap: 14px;
-  overflow-x: hidden; /* opcional, para evitar scroll horizontal único */
-  padding: 20px 0;
-  scroll-behavior: smooth;
+  flex-wrap: wrap;
+  gap: 14px; /* mantém 14px entre os cards */
 }
 
 .games-scroll::-webkit-scrollbar{
@@ -287,7 +284,7 @@ body {
 }
 
 .game-card {
-  width: calc((100% / 10) - 12px); /* 10 cards por linha com gap de 14px */
+  width: calc((100% / 9) - 14px); /* 10 cards por linha com gap de 14px */
   height: 230px;
   object-fit: cover;
   border-radius: 4px;
@@ -520,6 +517,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </body>
 
 </html>
+
 
 
 
