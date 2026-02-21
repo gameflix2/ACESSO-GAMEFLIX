@@ -177,10 +177,18 @@ body {
 }
 
 .top-10-scroll {
-  display: flex;
-  gap: 45px;
+  display: grid;
+
+  /* cards na horizontal infinitos */
+  grid-auto-flow: column;
+
+  /* largura real do card igual imagem */
+  grid-auto-columns: 220px;
+
+  gap: 18px;
   overflow-x: auto;
-  padding: 20px 0;
+  padding: 20px 4px;
+
   scrollbar-width: none;
   scroll-behavior: smooth;
 }
@@ -189,8 +197,8 @@ body {
 
 .card-container {
   position: relative;
-  min-width: 220px;
-  height: 200px;
+  width: 220px;      /* grid controla largura */
+  height: 320px;     /* altura estilo PlayStation */
   display: flex;
   align-items: flex-end;
   cursor: pointer;
@@ -214,13 +222,11 @@ body {
 }
 
 .poster-img {
-  width: 140px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  z-index: 2;
-  margin-left: 70px;
-  border-radius: 3px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  border-radius: 12px;
+  margin-left: 0;
 }
 
 .badge-new {
@@ -269,11 +275,23 @@ body {
 
 /* ROW normal jogos */
 .games-scroll{
-  display:flex;
+  display:grid;
+
+  /* 👇 10 cards por coluna */
+  grid-template-rows: repeat(10, 230px);
+
+  /* colunas infinitas */
+  grid-auto-flow: column;
+  grid-auto-columns: 160px;
+
   gap:14px;
   overflow-x:auto;
   padding:20px 0;
   scroll-behavior:smooth;
+}
+
+.games-scroll::-webkit-scrollbar{
+  display:none;
 }
 
 .games-scroll::-webkit-scrollbar{
@@ -677,6 +695,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </body>
 
 </html>
+
 
 
 
