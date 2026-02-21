@@ -189,8 +189,8 @@ body {
 
 .card-container {
   position: relative;
-  min-width: 250px; /* ajustado */
-  height: 240px; /* ajustado */
+  min-width: 300px; /* mais espaço pro numero */
+  height: 260px; /* ajustado */
   display: flex;
   align-items: flex-end;
   cursor: pointer;
@@ -201,26 +201,31 @@ body {
   transform: scale(1.05);
 }
 
-.rank-number {
-  font-size: clamp(80px, 20vw, 240px);
-  font-weight: 900;
-  line-height: 1.1;
-  color: #000;
-  -webkit-text-stroke: 4px #5e5e5e;
-  position: absolute;
-  left: -20px;
-  bottom: -25px;
-  z-index: 1;
+.rank-number{
+  position:absolute;
+  left:-10px; /* aproxima do poster */
+  bottom:-25px;
+
+  font-size:260px;
+  font-weight:900;
+  line-height:1;
+
+  color:transparent;
+  -webkit-text-stroke:6px #6a6a6a;
+
+  z-index:1;
+  pointer-events:none;
 }
 
-.poster-img {
-  width: 168px; /* +20% */
-  height: 240px; /* +20% */
-  object-fit: cover;
-  z-index: 2;
-  margin-left: 70px;
-  border-radius: 3px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+.poster-img{
+  width:180px;
+  height:260px;
+
+  object-fit:cover;
+  z-index:2;
+  margin-left:110px; /* ESSA é a chave */
+  border-radius:4px;
+  box-shadow:0 0 15px rgba(0,0,0,0.5);
 }
 
 .badge-new {
@@ -540,5 +545,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </body>
 
 </html>
+
 
 
