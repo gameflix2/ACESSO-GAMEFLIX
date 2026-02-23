@@ -414,18 +414,41 @@ body {
   margin: 20px 0;
 }
   .faixa-destaque{
+  position: relative;
   text-align:center;
   margin:25px 0;
-  padding:16px 18px;
-  border-radius:12px;
-  background: linear-gradient(90deg,#16a34a,#22c55e);
-  color:#fff;
-  font-size:19px;
+
+  background:#fff; /* fundo branco */
+  color:#e50914; /* vermelho Netflix */
+
+  padding:14px 25px;
+  font-size:18px;
   font-weight:800;
-  letter-spacing:.5px;
-  box-shadow:0 10px 25px rgba(34,197,94,0.35);
-  border:1px solid rgba(255,255,255,0.15);
-  backdrop-filter: blur(6px);
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+
+  border-radius:6px;
+  box-shadow:0 0 18px rgba(255,255,255,0.9); /* efeito neon branco */
+}
+
+/* pontas fita */
+.faixa-destaque::before,
+.faixa-destaque::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  border:12px solid transparent;
+}
+
+.faixa-destaque::before{
+  left:-24px;
+  border-right-color:#fff;
+}
+
+.faixa-destaque::after{
+  right:-24px;
+  border-left-color:#fff;
 }
 </style>
 </head>
@@ -769,6 +792,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </body>
 
 </html>
+
 
 
 
