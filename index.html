@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inicio - Gameflix</title>
@@ -418,38 +419,19 @@ body {
   text-align:center;
   margin:25px 0;
 
-  background:#000; /* fundo branco */
-  color:#000; /* vermelho Netflix */
+  background:#000;
+  color:#fff;
 
-  padding:14px 25px;
-  font-size:18px;
-  font-weight:800;
-  letter-spacing:0.5px;
-  text-transform:uppercase;
+  padding:16px 25px;
+
+  font-family:'Bebas Neue', sans-serif;
+  font-size:26px;
+  letter-spacing:1px;
 
   border-radius:6px;
-  box-shadow:0 0 18px rgba(255,255,255,0.9); /* efeito neon branco */
+  box-shadow:0 0 18px rgba(255,255,255,0.25);
 }
 
-/* pontas fita */
-.faixa-destaque::before,
-.faixa-destaque::after{
-  content:"";
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  border:12px solid transparent;
-}
-
-.faixa-destaque::before{
-  left:-24px;
-  border-right-color:#fff;
-}
-
-.faixa-destaque::after{
-  right:-24px;
-  border-left-color:#fff;
-}
 </style>
 </head>
 <body>
@@ -792,6 +774,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </body>
 
 </html>
+
 
 
 
