@@ -189,8 +189,8 @@ body {
 
 .card-container {
   position: relative;
-  min-width: 300px; /* mais espaço pro numero */
-  height: 260px; /* ajustado */
+  min-width: 300px; /* mais espaço pro número */
+  height: 260px;
   display: flex;
   align-items: flex-end;
   cursor: pointer;
@@ -201,31 +201,27 @@ body {
   transform: scale(1.05);
 }
 
-.rank-number{
-  position:absolute;
-  left:-10px; /* aproxima do poster */
-  bottom:-25px;
-
-  font-size:260px;
-  font-weight:900;
-  line-height:1;
-
-  color:transparent;
-  -webkit-text-stroke:6px #6a6a6a;
-
-  z-index:1;
-  pointer-events:none;
+.rank-number {
+  position: absolute;
+  left: -10px; /* aproxima do poster */
+  bottom: -25px;
+  font-size: 260px;
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 6px #6a6a6a;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.poster-img{
-  width:180px;
-  height:260px;
-
-  object-fit:cover;
-  z-index:2;
-  margin-left:110px; /* ESSA é a chave */
-  border-radius:4px;
-  box-shadow:0 0 15px rgba(0,0,0,0.5);
+.poster-img {
+  width: 180px;
+  height: 260px;
+  object-fit: cover;
+  z-index: 2;
+  margin-left: 110px; /* ESSA é a chave */
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
 .badge-new {
@@ -242,7 +238,7 @@ body {
   text-transform: uppercase;
 }
 
-/* --- Setas de navegação --- */
+/* Setas de navegação */
 .arrow-left, .arrow-right {
   position: absolute;
   top: 50%;
@@ -257,6 +253,7 @@ body {
   width: 40px;
   height: 60px;
 }
+
 .arrow-left { left: 5px; }
 .arrow-right { right: 5px; }
 
@@ -388,10 +385,11 @@ body {
 <!-- TOP 10 -->
 <div class="row">
   <h2>MAIS BAIXADOS GAMEFLIX</h2>
+
   <div class="top-10-container">
     <button class="arrow-left" onclick="scrollLeft()">‹</button>
+
     <div class="top-10-scroll" id="top10">
-      
       <!-- 1. Red Dead Redemption 2 -->
       <div class="card-container" onclick="updateBanner(
         'Red Dead Redemption 2',
@@ -407,7 +405,7 @@ body {
       <!-- 2. God of War Ragnarok -->
       <div class="card-container" onclick="updateBanner(
         'God of War Ragnarok',
-        'https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_Ragnarok.jpg',
+        'https://upload.wikimedia.org/wikipedia/en/a/a7/God-of-War-Ragnarok.jpg',
         'Kratos e Atreus enfrentam novos desafios nórdicos.',
         'https://res.cloudinary.com/seu-cloudinary/video/upload/v123456/gow_ragnarok_trailer.mp4'
       )">
@@ -424,7 +422,7 @@ body {
         'https://res.cloudinary.com/dlt1gqwnc/video/upload/v1771736680/FIFA26_ttc0uk.mp4'
       )">
         <span class="rank-number">3</span>
-        <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/07/Capa-completa-EA-Sports-FC-26.jpg?w=849&h=477&crop=0" class="poster-img" alt="FIFA 26">
+        <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/2025/07/Capa-completa-EA-Sports-FC-26.jpg?w=849&h=477&crop=0" class="poster-img" alt="FIFA 26">
         <div class="badge-new">Novidade</div>
       </div>
 
@@ -511,9 +509,14 @@ body {
         <div class="badge-new">Novidade</div>
       </div>
 
-    </div>
+    </div> <!-- FECHA top-10-scroll -->
+
     <button class="arrow-right" onclick="scrollRight()">›</button>
-  </div>
+  </div> <!-- FECHA top-10-container -->
+
+  <!-- BOTÃO COMPRAR AGORA -->
+  <button class="netflix-btn">COMPRAR AGORA</button>
+</div></div>
 </div>
 <!-- ROW JOGOS -->
 <!-- ROW JOGOS -->
@@ -679,6 +682,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </body>
 
 </html>
+
 
 
 
