@@ -295,6 +295,57 @@ body {
 .game-card:hover{
   transform:scale(1.08);
 }
+  /* COMBOS */
+.combo-scroll{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  padding:10px 0;
+}
+
+.combo-scroll::-webkit-scrollbar{
+  display:none;
+}
+
+.combo-card{
+  min-width:260px;
+  height:150px;
+  border-radius:6px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  transition:.3s;
+  background:#1c1c1c;
+}
+
+.combo-card:hover{
+  transform:scale(1.06);
+}
+
+.combo-card img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.5;
+}
+
+.combo-info{
+  position:absolute;
+  bottom:0;
+  padding:12px;
+}
+
+.combo-info h3{
+  margin:0;
+  font-size:16px;
+}
+
+.combo-price{
+  font-weight:bold;
+  color:#46d369;
+}
 </style>
 </head>
 <body>
@@ -506,6 +557,41 @@ body {
     
   </div>
 </div>
+  <!-- ROW COMBOS -->
+<div class="row">
+  <h2>COMBOS GAMEFLIX</h2>
+
+  <div class="combo-scroll">
+
+    <div class="combo-card" onclick="openCombo('Combo FPS','10 jogos FPS por R$49')">
+      <img src="https://images7.alphacoders.com/116/1161421.jpg">
+      <div class="combo-info">
+        <h3>Combo FPS</h3>
+        <div>10 jogos</div>
+        <div class="combo-price">R$ 49,00</div>
+      </div>
+    </div>
+
+    <div class="combo-card" onclick="openCombo('Combo RPG','10 RPGs por R$49')">
+      <img src="https://wallpapercave.com/wp/wp6801329.jpg">
+      <div class="combo-info">
+        <h3>Combo RPG</h3>
+        <div>10 jogos</div>
+        <div class="combo-price">R$ 49,00</div>
+      </div>
+    </div>
+
+    <div class="combo-card" onclick="openCombo('Combo Terror','10 jogos de terror por R$49')">
+      <img src="https://wallpapercave.com/wp/wp11698776.jpg">
+      <div class="combo-info">
+        <h3>Combo Terror</h3>
+        <div>10 jogos</div>
+        <div class="combo-price">R$ 49,00</div>
+      </div>
+    </div>
+
+  </div>
+</div>
 <script>
 function updateBanner(title, img, desc, trailerLink=null){
   const bannerTitle = document.getElementById('banner-title');
@@ -580,11 +666,15 @@ window.addEventListener("DOMContentLoaded", ()=>{
   document.addEventListener("click", enableSound, {once:true});
 
 });
+  function openCombo(title, desc){
+  updateBanner(title, null, desc);
+}
 </script>
 
 </body>
 
 </html>
+
 
 
 
