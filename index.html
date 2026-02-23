@@ -346,32 +346,6 @@ body {
   font-weight:bold;
   color:#46d369;
 }
-  /* MODAL COMBO */
-.combo-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:none;
-  z-index:999;
-  padding:40px;
-}
-
-.combo-modal-content{
-  max-width:900px;
-  margin:auto;
-}
-
-.combo-games{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-  gap:12px;
-}
-
-.combo-close{
-  cursor:pointer;
-  font-size:18px;
-  margin-bottom:20px;
-}
 </style>
 </head>
 <body>
@@ -592,8 +566,8 @@ body {
     <div class="combo-card" onclick="openCombo('Combo FPS','10 jogos FPS por R$49')">
       <img src="https://images7.alphacoders.com/116/1161421.jpg">
       <div class="combo-info">
-        <h3>PACOTE PLUS GAMEFLIX</h3>
-        <div>5 jogos</div>
+        <h3>Combo FPS</h3>
+        <div>10 jogos</div>
         <div class="combo-price">R$ 49,00</div>
       </div>
     </div>
@@ -601,37 +575,21 @@ body {
     <div class="combo-card" onclick="openCombo('Combo RPG','10 RPGs por R$49')">
       <img src="https://wallpapercave.com/wp/wp6801329.jpg">
       <div class="combo-info">
-        <h3>PACOTE PREMIUM GAMEFLIX</h3>
+        <h3>Combo RPG</h3>
         <div>10 jogos</div>
-        <div class="combo-price">R$ 69,00</div>
+        <div class="combo-price">R$ 49,00</div>
       </div>
     </div>
 
     <div class="combo-card" onclick="openCombo('Combo Terror','10 jogos de terror por R$49')">
       <img src="https://wallpapercave.com/wp/wp11698776.jpg">
       <div class="combo-info">
-        <h3>PACOTE FULL PREMIUM</h3>
-        <div>30 JOGOS</div>
-        <div class="combo-price">R$ 99,00</div>
-      </div>
-    </div>
-    <div class="combo-card" onclick="openCombo('Combo FPS','10 jogos FPS por R$49')">
-      <img src="https://res.cloudinary.com/dlt1gqwnc/image/upload/v1771860853/ChatGPT_Image_23_de_fev._de_2026_12_34_01_dxmki9.png">
-      <div class="combo-info">
-        <h3>PACOTE FREE</h3>
-        <div>5 jogos</div>
-        <div class="combo-price">R$ 00,00</div>
+        <h3>Combo Terror</h3>
+        <div>10 jogos</div>
+        <div class="combo-price">R$ 49,00</div>
       </div>
     </div>
 
-  </div>
-</div>
-  <!-- MODAL COMBO -->
-<div id="comboModal" class="combo-modal">
-  <div class="combo-modal-content">
-    <div class="combo-close" onclick="closeCombo()">✕ Fechar</div>
-    <h2 id="comboTitle"></h2>
-    <div id="comboGames" class="combo-games"></div>
   </div>
 </div>
 <script>
@@ -708,120 +666,12 @@ window.addEventListener("DOMContentLoaded", ()=>{
   document.addEventListener("click", enableSound, {once:true});
 
 });
-  
-  const combos = {
-  "Combo FPS":[
-    "Call of Duty",
-    "Battlefield",
-    "DOOM",
-    "Halo",
-    "Far Cry",
-    "Titanfall",
-    "Wolfenstein",
-    "Rainbow Six",
-    "Metro",
-    "Destiny"
-  ],
-  "Combo RPG":[
-    "The Witcher",
-    "Skyrim",
-    "Dragon Age",
-    "Elden Ring",
-    "Final Fantasy",
-    "Persona",
-    "Diablo",
-    "Mass Effect",
-    "Baldur's Gate",
-    "Cyberpunk"
-  ],
-  "Combo Terror":[
-    "Resident Evil",
-    "Outlast",
-    "Silent Hill",
-    "Dead Space",
-    "The Evil Within",
-    "Alien Isolation",
-    "Visage",
-    "Amnesia",
-    "Layers of Fear",
-    "Phasmophobia"
-  ]
-};
-
-function openCombo(title, desc){
+  function openCombo(title, desc){
   updateBanner(title, null, desc);
-
-  const modal = document.getElementById("comboModal");
-  const titleEl = document.getElementById("comboTitle");
-  const gamesEl = document.getElementById("comboGames");
-
-  titleEl.innerText = title;
-  gamesEl.innerHTML = "";
-
-  (combos[title] || []).forEach(name => {
-
-  const existing = [...document.querySelectorAll(".game-card")]
-    .find(card => {
-      const onclick = card.getAttribute("onclick") || "";
-      const clean = s => s.toLowerCase().replace(/[^a-z0-9]/g,"");
-      return clean(onclick).includes(clean(name));
-    });
-
-  if(existing){
-    const clone = existing.cloneNode(true);
-    gamesEl.appendChild(clone);
-  }
-
-});
-
-  modal.style.display="block";
-}
-
-function closeCombo(){
-  document.getElementById("comboModal").style.display="none";
 }
 </script>
 
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
