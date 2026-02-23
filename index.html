@@ -346,6 +346,32 @@ body {
   font-weight:bold;
   color:#46d369;
 }
+  /* MODAL COMBO */
+.combo-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  z-index:999;
+  padding:40px;
+}
+
+.combo-modal-content{
+  max-width:900px;
+  margin:auto;
+}
+
+.combo-games{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:12px;
+}
+
+.combo-close{
+  cursor:pointer;
+  font-size:18px;
+  margin-bottom:20px;
+}
 </style>
 </head>
 <body>
@@ -600,6 +626,14 @@ body {
 
   </div>
 </div>
+  <!-- MODAL COMBO -->
+<div id="comboModal" class="combo-modal">
+  <div class="combo-modal-content">
+    <div class="combo-close" onclick="closeCombo()">✕ Fechar</div>
+    <h2 id="comboTitle"></h2>
+    <div id="comboGames" class="combo-games"></div>
+  </div>
+</div>
 <script>
 function updateBanner(title, img, desc, trailerLink=null){
   const bannerTitle = document.getElementById('banner-title');
@@ -674,14 +708,75 @@ window.addEventListener("DOMContentLoaded", ()=>{
   document.addEventListener("click", enableSound, {once:true});
 
 });
-  function openCombo(title, desc){
+  
+  const combos = {
+  "Combo FPS":[
+    "Call of Duty",
+    "Battlefield",
+    "DOOM",
+    "Halo",
+    "Far Cry",
+    "Titanfall",
+    "Wolfenstein",
+    "Rainbow Six",
+    "Metro",
+    "Destiny"
+  ],
+  "Combo RPG":[
+    "The Witcher",
+    "Skyrim",
+    "Dragon Age",
+    "Elden Ring",
+    "Final Fantasy",
+    "Persona",
+    "Diablo",
+    "Mass Effect",
+    "Baldur's Gate",
+    "Cyberpunk"
+  ],
+  "Combo Terror":[
+    "Resident Evil",
+    "Outlast",
+    "Silent Hill",
+    "Dead Space",
+    "The Evil Within",
+    "Alien Isolation",
+    "Visage",
+    "Amnesia",
+    "Layers of Fear",
+    "Phasmophobia"
+  ]
+};
+
+function openCombo(title, desc){
   updateBanner(title, null, desc);
+
+  const modal = document.getElementById("comboModal");
+  const titleEl = document.getElementById("comboTitle");
+  const gamesEl = document.getElementById("comboGames");
+
+  titleEl.innerText = title;
+  gamesEl.innerHTML = "";
+
+  (combos[title] || []).forEach(g=>{
+    const div = document.createElement("div");
+    div.className="game-card";
+    div.innerText=g;
+    gamesEl.appendChild(div);
+  });
+
+  modal.style.display="block";
+}
+
+function closeCombo(){
+  document.getElementById("comboModal").style.display="none";
 }
 </script>
 
 </body>
 
 </html>
+
 
 
 
