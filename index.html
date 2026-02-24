@@ -459,6 +459,44 @@ font-size:36px; /* AUMENTA A FRASE */
   margin:0;
   font-weight:500;
 }
+  /* SELO DE DESCONTO – estilo 3D */
+.discount-badge{
+  position:absolute;
+  top:-25px;
+  right:-25px;
+  width:140px;
+  height:140px;
+  background:linear-gradient(145deg,#ffcc00,#ff9900);
+  border-radius:20px;
+  transform:rotate(15deg);
+  box-shadow:
+    0 15px 30px rgba(0,0,0,.4),
+    inset 0 4px 8px rgba(255,255,255,.6);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#000;
+  z-index:5;
+}
+
+.discount-badge span{
+  font-size:14px;
+  font-weight:700;
+}
+
+.discount-badge strong{
+  font-size:42px;
+  font-weight:900;
+  line-height:1;
+}
+
+.discount-badge em{
+  font-size:14px;
+  font-style:normal;
+  font-weight:700;
+}
 </style>
 </head>
 <body>
@@ -502,8 +540,14 @@ font-size:36px; /* AUMENTA A FRASE */
 <div class="row">
   <!-- CARTÃO PROMOCIONAL SEM BOTÃO -->
 <div class="promo-card">
+
+  <div class="discount-badge">
+    <span>ATÉ</span>
+    <strong>50%</strong>
+    <em>DE DESCONTO</em>
+  </div>
+
   <div class="promo-card-content">
-    <span class="promo-tag">OFERTA ESPECIAL</span>
     <h3>TOP 10 JOGOS PREMIUM</h3>
     <p class="promo-desc">Pacote exclusivo por tempo limitado</p>
 
@@ -512,6 +556,7 @@ font-size:36px; /* AUMENTA A FRASE */
       <span class="new">R$49,90</span>
     </div>
   </div>
+
 </div>
   <h2>VEJA A LISTA DOS TOP 10 JOGOS DA GAMEFLIX</h2>
 
@@ -802,6 +847,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </body>
 
 </html>
+
 
 
 
