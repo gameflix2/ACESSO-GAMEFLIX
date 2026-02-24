@@ -543,7 +543,7 @@ font-size:36px; /* AUMENTA A FRASE */
 <!-- BANNER CLOUDINARY ACIMA DO TOP 10 -->
 <div class="top10-banner">
   <img 
-    src="https://res.cloudinary.com/dlt1gqwnc/image/upload/v1771947625/blackdagameflix_sicszy.png"
+    src="https://res.cloudinary.com/dlt1gqwnc/image/upload/v1771951448/Banner_Horizontal_Black_Friday_Vibrante_Preto_e_Vermelho_2_lhgsn0.png"
     alt="Banner Top 10"
   >
 </div>
@@ -863,6 +863,20 @@ function closeModal(){
 document.getElementById("netflixModal").addEventListener("click", e=>{
   if(e.target.id === "netflixModal") closeModal();
 });
+  /* 🚫 BLOQUEIA updateBanner para cliques em cards */
+document.querySelectorAll('.card-container, .game-card').forEach(card => {
+  card.onclick = null;
+});
+  /* ✅ TODOS os cards agora abrem o modal Netflix */
+document.querySelectorAll('.card-container, .game-card').forEach(card => {
+  card.addEventListener('click', () => {
+    openModal(
+      'Jogo Gameflix',
+      'Assista ao trailer completo e veja detalhes deste jogo.',
+      'https://res.cloudinary.com/dlt1gqwnc/video/upload/v1771613996/farcry_z2rivm.mp4'
+    );
+  });
+});
 </script>
 <!-- MODAL NETFLIX -->
 <div class="netflix-modal" id="netflixModal">
@@ -880,6 +894,7 @@ document.getElementById("netflixModal").addEventListener("click", e=>{
 </body>
 
 </html>
+
 
 
 
