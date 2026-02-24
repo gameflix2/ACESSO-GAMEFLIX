@@ -20,7 +20,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ================= HEADER ================= */
+/* --- HEADER --- */
 .pinning-header {
   position: fixed;
   top: 0;
@@ -42,6 +42,7 @@ body {
   font-size: 28px;
   font-weight: bold;
   text-decoration: none;
+  letter-spacing: -1px;
 }
 
 .nav-links {
@@ -55,15 +56,34 @@ body {
 .nav-links a {
   color: #e5e5e5;
   text-decoration: none;
+  transition: color 0.3s;
 }
+
+.nav-links a:hover { color: var(--text-gray); }
 
 .header-actions {
   margin-left: auto;
   display: flex;
+  align-items: center;
   gap: 15px;
 }
 
-/* ================= BANNER PRINCIPAL ================= */
+.header-actions button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.header-actions img.profile {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* --- BANNER --- */
 .banner {
   height: 80vh;
   display: flex;
@@ -82,32 +102,64 @@ body {
   z-index: -1;
 }
 
+.banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; width: 100%; height: 150px;
+  background: linear-gradient(to top, var(--bg-dark), transparent);
+  z-index: 1;
+}
+
 .banner::before {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.2));
-}
-
-.banner::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 150px;
-  background: linear-gradient(to top, var(--bg-dark), transparent);
+  z-index: 1;
 }
 
 .banner-content {
   max-width: 600px;
+  position: relative;
   z-index: 2;
 }
 
 .banner-content h1 {
   font-size: 3rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
 }
 
-/* ================= TOP 10 ================= */
+.banner-content p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+.btn-play {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 10px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.btn-info {
+  background: rgba(109, 109, 110, 0.7);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* --- TOP 10 ROW --- */
 .row {
   padding: 20px 4%;
   margin-top: -50px;
@@ -118,6 +170,11 @@ body {
 .row h2 {
   font-size: 1.4vw;
   color: #e5e5e5;
+  margin-bottom: 10px;
+}
+
+.top-10-container {
+  position: relative;
 }
 
 .top-10-scroll {
@@ -125,19 +182,24 @@ body {
   gap: 45px;
   overflow-x: auto;
   padding: 20px 0;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
-.top-10-scroll::-webkit-scrollbar {
-  display: none;
-}
+.top-10-scroll::-webkit-scrollbar { display: none; }
 
 .card-container {
   position: relative;
-  min-width: 300px;
+  min-width: 300px; /* mais espaço pro número */
   height: 260px;
   display: flex;
   align-items: flex-end;
   cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.card-container:hover {
+  transform: scale(1.05);
 }
 
 .rank-number {
@@ -146,94 +208,225 @@ body {
   bottom: -25px;
   font-size: 260px;
   font-weight: 900;
+  line-height: 1;
+
+  /* 👇 INTERIOR PRETO */
   color: #000;
+
+  /* 👇 BORDA CONTINUA IGUAL */
   -webkit-text-stroke: 6px #6a6a6a;
+
   z-index: 1;
+  pointer-events: none;
 }
 
 .poster-img {
   width: 180px;
   height: 260px;
-  margin-left: 110px;
   object-fit: cover;
-  border-radius: 4px;
   z-index: 2;
+  margin-left: 110px; /* ESSA é a chave */
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
-/* ================= BANNER CLOUDINARY TOP 10 ================= */
-.top10-banner {
-  display: flex;
-  justify-content: center;
-  margin: 113px 0; /* ~3cm acima e abaixo */
-  position: relative;
-  z-index: 6;
+.badge-new {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  background-color: var(--netflix-red);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 2px;
+  z-index: 3;
+  text-transform: uppercase;
 }
 
-.top10-banner img {
-  max-width: 90%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.7);
+/* Setas de navegação */
+.arrow-left, .arrow-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20,20,20,0.7);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  width: 40px;
+  height: 60px;
 }
 
-/* ================= OUTRAS SEÇÕES ================= */
+.arrow-left { left: 5px; }
+.arrow-right { right: 5px; }
+
+@media(max-width:768px){
+  .banner-content h1 { font-size: 2rem; }
+  .banner-content p { font-size: 14px; }
+  .poster-img { width: 100px; height: 150px; margin-left: 50px; }
+  .rank-number { font-size: clamp(60px, 25vw, 120px); left: -10px; bottom: -15px; }
+  .arrow-left, .arrow-right { width: 30px; height: 50px; font-size: 1.5rem; }
+}
+.arrow-left { left: 5px; }
+.arrow-right { right: 5px; }
+
+/* 👇 COLE AQUI 👇 */
+
+/* ROW normal jogos */
 .games-scroll {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 14px; /* mantém 14px entre os cards */
+}
+
+.games-scroll::-webkit-scrollbar{
+  display:none;
 }
 
 .game-card {
   width: calc((100% / 9) - 14px);
-  height: 307px;
+  height: 307px; /* 230 * (800/600) ≈ 307px */
+  object-fit: cover;
   border-radius: 4px;
   cursor: pointer;
+  transition: transform .3s;
 }
 
-.combo-scroll {
-  display: flex;
-  gap: 14px;
-  overflow-x: auto;
+.game-card:hover{
+  transform:scale(1.08);
+}
+  /* COMBOS */
+.combo-scroll{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  padding:10px 0;
 }
 
-.combo-card {
-  min-width: 260px;
-  height: 150px;
-  border-radius: 6px;
-  position: relative;
-  overflow: hidden;
+.combo-scroll::-webkit-scrollbar{
+  display:none;
 }
 
-/* ================= BOTÃO ================= */
+.combo-card{
+  min-width:260px;
+  height:150px;
+  border-radius:6px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  transition:.3s;
+  background:#1c1c1c;
+}
+
+.combo-card:hover{
+  transform:scale(1.06);
+}
+
+.combo-card img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.5;
+}
+
+.combo-info{
+  position:absolute;
+  bottom:0;
+  padding:12px;
+}
+
+.combo-info h3{
+  margin:0;
+  font-size:16px;
+}
+
+.combo-price{
+  font-weight:bold;
+  color:#46d369;
+}
+  /* BOTÃO COMPRAR AGORA - Estilo Futurista Neon */
 .netflix-btn {
+  display: inline-block;
   padding: 22px 55px;
   font-size: 26px;
   font-weight: bold;
+  text-transform: uppercase;
   color: #fff;
   background: linear-gradient(90deg, #e50914, #ff3b3b);
-  border-radius: 8px;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: 0.3s;
+  box-shadow: 0 0 10px #e50914, 0 0 20px #ff3b3b, 0 0 30px #ff3b3b;
 }
 
-/* ================= RESPONSIVO ================= */
-@media (max-width: 768px) {
-  .poster-img {
-    width: 100px;
-    height: 150px;
-    margin-left: 50px;
-  }
-
-  .rank-number {
-    font-size: 120px;
-  }
+/* Glow animado */
+.netflix-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, #ff0000, #ff3b3b, #ff0000, #ff3b3b);
+  animation: glow 2.5s linear infinite;
+  filter: blur(15px);
+  z-index: -1;
 }
-  /* ÍCONE PERFIL HEADER */
-.header-actions img.profile {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  object-fit: cover;
+
+@keyframes glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.netflix-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff0000, 0 0 30px #ff3b3b, 0 0 40px #ff3b3b;
+}
+  .floating-btn-container {
+  text-align: center;
+  margin: 40px 0; /* espaçamento acima e abaixo */
+  position: relative;
+  z-index: 10;
+}
+
+/* Efeito de flutuação */
+.netflix-btn {
+  animation: float 2.5s ease-in-out infinite;
+}
+
+/* Keyframes da flutuação */
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.05); }
+}
+  /* FAIXA DE DESCRIÇÃO TOP 10 */
+.top10-description {
+  background: rgba(255,0,0,0.2);
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 500;
+  margin: 20px 0;
+}
+  .faixa-destaque{
+  font-family:'Bebas Neue', sans-serif;
+  color:#fff;
+  text-align:center;
+  padding:24px 40px;
+font-size:36px; /* AUMENTA A FRASE */
+}
+
 }
 </style>
 </head>
@@ -273,14 +466,7 @@ body {
     <button class="btn-info">ⓘ Mais informações</button>
   </div>
 </section>
-  
-<!-- BANNER CLOUDINARY ACIMA DO TOP 10 -->
-<div class="top10-banner">
-  <img 
-    src="https://res.cloudinary.com/dlt1gqwnc/image/upload/v1771947625/blackdagameflix_sicszy.png"
-    alt="Banner Top 10"
-  >
-</div>
+
 <!-- TOP 10 -->
 <div class="row">
   <h2>VEJA A LISTA DOS TOP 10 JOGOS DA GAMEFLIX</h2>
@@ -572,6 +758,5 @@ window.addEventListener("DOMContentLoaded", ()=>{
 </body>
 
 </html>
-
 
 
