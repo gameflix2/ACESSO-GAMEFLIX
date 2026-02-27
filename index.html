@@ -9,6 +9,40 @@
 </head>
 <body>
 
+<div id="login-screen">
+  <div class="login-header">
+    <a href="#" class="logo">GAMEFLIX</a>
+  </div>
+  
+  <div class="login-box">
+    <h1>Entrar</h1>
+    <form id="login-form">
+      <div class="input-group">
+        <input type="email" id="user-email" required placeholder="Email">
+      </div>
+      <div class="input-group">
+        <input type="password" id="user-password" required placeholder="Senha">
+      </div>
+      <button type="submit" class="btn-login-submit">Entrar</button>
+      
+      <div class="login-help">
+        <div class="remember-me">
+          <input type="checkbox" id="remember">
+          <label for="remember">Lembre-se de mim</label>
+        </div>
+        <a href="#">Precisa de ajuda?</a>
+      </div>
+    </form>
+
+    <div class="login-footer-info">
+      <p>Novo por aqui? <a href="#">Assine agora.</a></p>
+      <p class="captcha-text">
+        Esta página é protegida pelo Google reCAPTCHA.
+      </p>
+    </div>
+  </div>
+</div>
+
   <header class="pinning-header" id="header">
     <div class="main-header"> 
       <a href="#" class="logo">GAMEFLIX</a>
@@ -106,11 +140,9 @@
       </div>
       <button class="arrow-right" onclick="scrollRight()">›</button>
     </div>
-   <div class="floating-btn-container">
-  <a href="https://gameflix2.github.io/CHECKOUT-GAMEFLIX--PAY/">
-    <button class="netflix-btn">COMPRAR AGORA</button>
-  </a>
-</div>
+    <div class="floating-btn-container">
+      <button class="netflix-btn">COMPRAR AGORA</button>
+    </div>
   </div>
 
   <div class="row">
@@ -272,10 +304,7 @@
 </div>
 
 <div class="floating-btn-container">
-  <a href="https://gameflix2.github.io/CHECKOUT-GAMEFLIX--PAY/">
-    <button class="netflix-btn">COMPRAR AGORA</button>
-  </a>
-</div>
+  <button class="netflix-btn">COMPRAR AGORA</button>
 </div>
   </div>
 
@@ -345,6 +374,4 @@
   </script>
 
 </body>
-
 </html>
-

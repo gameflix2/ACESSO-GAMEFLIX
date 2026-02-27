@@ -119,3 +119,29 @@ document.querySelectorAll('.free-game-trigger').forEach(card => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
+/* --- LÓGICA DE LOGIN --- */
+const loginForm = document.getElementById('login-form');
+
+loginForm.addEventListener('submit', function(e) {
+  e.preventDefault(); // Impede a página de recarregar
+
+  const emailInput = document.getElementById('user-email').value;
+  const passwordInput = document.getElementById('user-password').value;
+
+  // DEFINA AQUI O EMAIL E SENHA QUE VOCÊ QUER
+  const emailCorreto = "testegratis@gameflix.com";
+  const senhaCorreta = "gameflix";
+
+  if (emailInput === emailCorreto && passwordInput === senhaCorreta) {
+    // Esconde a tela de login
+    document.getElementById('login-screen').classList.add('hidden');
+    
+    // Opcional: Inicia o vídeo do banner após entrar
+    const bannerVideo = document.getElementById("banner-video");
+    if(bannerVideo) bannerVideo.play().catch(()=>{});
+    
+    alert("Bem-vindo a melhor plataforma de games do Brasail!");
+  } else {
+    alert("Email ou senha incorretos. Tente novamente.");
+  }
+});
