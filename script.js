@@ -1,147 +1,81 @@
-/* --- SCROLL INTELIGENTE DO TOP 10 --- */
-const top10 = document.getElementById('top10');
+const catalog = document.getElementById('main-catalog');
+const popup = document.getElementById('popup-resumo');
+let limiteAtual = 0;
 
-function scrollLeft(){
-  if(!top10) return;
-  const card = top10.querySelector(".card-container");
-  if(!card) return;
-  top10.scrollBy({ left: -(card.offsetWidth + 45) * 2, behavior: "smooth" });
-}
+// 1. Seleção do Plano (VERSÃO CORRIGIDA)
+document.querySelectorAll('.btn-plan').forEach(button => {
+    button.addEventListener('click', function() {
+        const planCard = this.parentElement;
+        const planName = planCard.querySelector('h3').innerText.toUpperCase();
+        
+        // --- INÍCIO DA LIMPEZA DO PREÇO ---
+        let precoElemento = planCard.querySelector('.price');
+        let precoClone = precoElemento.cloneNode(true);
+        const oldPrice = precoClone.querySelector('.old-price');
+        if (oldPrice) oldPrice.remove(); // Remove o preço riscado (ex: 333,00)
+        
+        let precoLimpo = precoClone.innerText.replace('R$', '').replace('/único', '').trim();
+        window.precoSelecionado = precoLimpo; // Agora só sobra o valor real (ex: 99,90)
+        // --- FIM DA LIMPEZA ---
 
-function scrollRight(){
-  if(!top10) return;
-  const card = top10.querySelector(".card-container");
-  if(!card) return;
-  top10.scrollBy({ left: (card.offsetWidth + 45) * 2, behavior: "smooth" });
-}
+        if (planName.includes("BASICO")) limiteAtual = 1;
+        else if (planName.includes("PLUS")) limiteAtual = 5;
+        else if (planName.includes("PREMIUM")) limiteAtual = 15;
+        else if (planName.includes("ULTIMATE")) {
+            window.location.href = `https://gameflix2.github.io/CHECKOUT-GAMEFLIX--PAY/?valor=199,90`;
+            return;
+        }
 
-/* --- EFEITO DO HEADER NO SCROLL --- */
-window.addEventListener('scroll', ()=>{
-  const header = document.getElementById('header');
-  if(window.scrollY > 50) {
-    header.style.background = 'rgba(20,20,20,0.95)';
-  } else {
-    header.style.background = 'linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, transparent)';
-  }
+        document.querySelectorAll('.game-item.selected').forEach(el => el.classList.remove('selected'));
+        catalog.classList.add('active');
+        document.getElementById('catalog-title').innerText = `ESCOLHA SEUS JOGOS (LIMITE: ${limiteAtual})`;
+
+        setTimeout(() => {
+            catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 200);
+    });
 });
 
-/* --- CONTROLE DO VÍDEO DO BANNER (LOOP INTELIGENTE) --- */
-window.addEventListener("DOMContentLoaded", ()=>{
-  const bannerSection = document.getElementById("main-banner");
-  const bannerVideo = document.getElementById("banner-video");
-  if(!bannerVideo || !bannerSection) return;
+// 2. Seleção de Jogos e Abertura Automática
+document.addEventListener('click', function (e) {
+    const gameItem = e.target.closest('.game-item');
+    if (gameItem && catalog.classList.contains('active')) {
+        
+        if (gameItem.classList.contains('selected')) {
+            gameItem.classList.remove('selected');
+        } else {
+            const selecionados = document.querySelectorAll('.game-item.selected').length;
 
-  // 1. Removemos o loop padrão do HTML para o JavaScript assumir o controle
-  bannerVideo.removeAttribute("loop");
-
-  // 2. Quando o vídeo terminar, ele muta o som e começa de novo!
-  bannerVideo.addEventListener("ended", () => {
-    bannerVideo.muted = true; // Fica mudo
-    bannerVideo.play().catch(()=>{}); // Recomeça o vídeo
-  });
-
-  // 3. Clique no banner para ligar/desligar o som manualmente, se o usuário quiser
-  bannerSection.addEventListener("click", ()=>{
-    if(bannerVideo.muted){
-      bannerVideo.muted = false;
-      bannerVideo.volume = 0.3; // Volume agradável
-    } else {
-      bannerVideo.muted = true;
+            if (selecionados < limiteAtual) {
+                gameItem.classList.add('selected');
+                
+                // Abre o popup quando atinge o limite
+                const totalAgora = document.querySelectorAll('.game-item.selected').length;
+                if (totalAgora === limiteAtual) {
+                    setTimeout(mostrarResumo, 600);
+                }
+            } else {
+                alert(`Limite de ${limiteAtual} atingido!`);
+            }
+        }
     }
-  });
 });
 
-/* --- LÓGICA DO MODAL (ESTILO NETFLIX COM YOUTUBE) --- */
-function openModal(title, desc, youtubeId) {
-  const modal = document.getElementById("netflixModal");
-  const iframe = document.getElementById("modalVideo");
-  const bannerVideo = document.getElementById("banner-video");
+// 3. Gerar resumo com Fotos e Link de Pagamento
+function mostrarResumo() {
+    const selecionados = document.querySelectorAll('.game-item.selected');
+    const listaDiv = document.getElementById('lista-resumo');
+    const btnCheckout = document.querySelector('.btn-checkout'); // O botão do seu popup
+    
+    listaDiv.innerHTML = ""; 
 
-  // PAUSA E MUTA O VÍDEO DE FUNDO À FORÇA!
-  if(bannerVideo) {
-    bannerVideo.pause();
-    bannerVideo.muted = true; 
-  }
+    selecionados.forEach((item) => {
+        const imgLink = item.querySelector('img').src;
+        listaDiv.innerHTML += `<img src="${imgLink}" class="resumo-img-pop">`;
+    });
 
-  document.getElementById("modalTitle").textContent = title;
-  document.getElementById("modalDesc").textContent = desc;
+    // Injeta o valor no link final
+    btnCheckout.href = `https://gameflix2.github.io/CHECKOUT-GAMEFLIX--PAY/?valor=${window.precoSelecionado}`;
 
-  // MÁGICA AQUI: adicionei &start=10 no final do link!
-  iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&playsinline=1&start=10`;
-  
-  modal.classList.add("active");
-  document.body.style.overflow = "hidden";
+    popup.style.display = 'flex';
 }
-
-function closeModal(){
-  const modal = document.getElementById("netflixModal");
-  const iframe = document.getElementById("modalVideo");
-  const bannerVideo = document.getElementById("banner-video");
-
-  // Remove o vídeo do YouTube para ele parar de tocar
-  iframe.src = "";
-
-  modal.classList.remove("active");
-  document.body.style.overflow = "";
-
-  // Volta a rodar o vídeo de fundo, mas MUTADO para não atrapalhar a paz
-  if(bannerVideo) {
-    bannerVideo.muted = true;
-    bannerVideo.play().catch(()=>{});
-  }
-}
-
-/* Fecha o modal clicando fora dele (na parte escura) */
-document.getElementById("netflixModal").addEventListener("click", e => {
-  if(e.target.id === "netflixModal") closeModal();
-});
-
-document.querySelectorAll('.free-game-trigger').forEach(card => {
-  card.addEventListener('click', function() {
-    // 1. Coleta os dados do card clicado
-    const novoTitulo = this.getAttribute('data-title');
-    const novaDesc = this.getAttribute('data-desc');
-    const novoVideo = this.getAttribute('data-video');
-    const novoLink = this.getAttribute('data-link');
-
-    // 2. Atualiza os elementos do banner
-    document.getElementById('banner-title').textContent = novoTitulo;
-    document.getElementById('banner-desc').textContent = novaDesc;
-    
-    const videoElement = document.getElementById('banner-video');
-    videoElement.src = novoVideo;
-    videoElement.play();
-
-    const downloadBtn = document.querySelector('.banner-content a');
-    downloadBtn.href = novoLink;
-
-    // 3. Sobe a página suavemente para o topo
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-});
-/* --- LÓGICA DE LOGIN --- */
-const loginForm = document.getElementById('login-form');
-
-loginForm.addEventListener('submit', function(e) {
-  e.preventDefault(); // Impede a página de recarregar
-
-  const emailInput = document.getElementById('user-email').value;
-  const passwordInput = document.getElementById('user-password').value;
-
-  // DEFINA AQUI O EMAIL E SENHA QUE VOCÊ QUER
-  const emailCorreto = "testegratis@gameflix.com";
-  const senhaCorreta = "gameflix";
-
-  if (emailInput === emailCorreto && passwordInput === senhaCorreta) {
-    // Esconde a tela de login
-    document.getElementById('login-screen').classList.add('hidden');
-    
-    // Opcional: Inicia o vídeo do banner após entrar
-    const bannerVideo = document.getElementById("banner-video");
-    if(bannerVideo) bannerVideo.play().catch(()=>{});
-    
-    alert("Bem-vindo a melhor plataforma de games do Brasail!");
-  } else {
-    alert("Email ou senha incorretos. Tente novamente.");
-  }
-});
