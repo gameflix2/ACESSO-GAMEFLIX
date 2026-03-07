@@ -24,7 +24,6 @@
             padding: 30px 0; 
         }
         
-        /* Headline Responsiva */
         .headline { 
             font-family: 'Bebas Neue', sans-serif; 
             font-size: 2.8rem; 
@@ -35,7 +34,7 @@
         }
         .headline span { color: var(--primary-red); }
 
-        /* Player Blindado Adaptável */
+        /* Player Wrapper */
         .video-wrapper { 
             position: relative; 
             width: 100%; 
@@ -51,13 +50,36 @@
             width: 100%; height: 100%; 
             border: none; z-index: 1; 
         }
+
+        /* CAMADA DE AVISO DE SOM */
         .video-overlay { 
             position: absolute; top: 0; left: 0; 
             width: 100%; height: 100%; 
             z-index: 10; cursor: pointer; 
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.5s;
         }
 
-        /* Botão Estilo GAMEFLIX Otimizado */
+        .audio-icon {
+            width: 80px;
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .overlay-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            background: var(--primary-red);
+            padding: 10px 20px;
+            border-radius: 5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Botão Gameflix com Delay */
         #cta-container { 
             margin-top: 35px; 
             display: none; 
@@ -67,7 +89,7 @@
         .netflix-btn { 
             display: inline-block; 
             padding: 20px 0; 
-            width: 100%; /* No mobile ocupa a largura toda */
+            width: 100%; 
             max-width: 500px;
             font-size: 22px; 
             font-weight: bold; 
@@ -81,15 +103,19 @@
             animation: float 2.5s ease-in-out infinite; 
         }
 
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         @keyframes surge { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
-        /* Ajustes específicos para Celular */
         @media (max-width: 600px) {
-            .container { padding: 20px 0; }
-            .headline { font-size: 1.8rem; margin-bottom: 20px; }
-            .netflix-btn { font-size: 18px; padding: 18px 0; }
-            .video-wrapper { border-radius: 4px; }
+            .headline { font-size: 1.8rem; }
+            .overlay-text { font-size: 18px; }
+            .audio-icon { width: 50px; }
         }
     </style>
 </head>
@@ -98,7 +124,11 @@
         <h1 class="headline">ESTE MÉTODO LIBERA MAIS DE 40 JOGOS <span>PREMIUM</span> NO SEU PC HOJE</h1>
         
         <div class="video-wrapper">
-            <div class="video-overlay" onclick="togglePlay()"></div>
+            <div class="video-overlay" id="overlay" onclick="startVideo()">
+                <img src="https://cdn-icons-png.flaticon.com/512/461/461238.png" class="audio-icon" style="filter: invert(1);">
+                <div class="overlay-text">TOQUE PARA OUVIR</div>
+            </div>
+            
             <div id="player"></div>
         </div>
 
@@ -110,7 +140,7 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         const VIDEO_ID = 'ASzOzrB-a9E'; 
-        const DELAY = 10000; // 10 segundos para aparecer
+        const DELAY = 10000; // 10 segundos
         var player;
 
         function onYouTubeIframeAPIReady() {
@@ -120,26 +150,26 @@
                     'autoplay': 1, 'controls': 0, 'disablekb': 1, 
                     'rel': 0, 'modestbranding': 1, 'mute': 1,
                     'origin': window.location.origin 
-                },
-                events: { 
-                    'onStateChange': (e) => { 
-                        if(e.data == 1) { // Quando o vídeo der o play
-                            setTimeout(() => { 
-                                document.getElementById('cta-container').style.display = 'block'; 
-                            }, DELAY); 
-                        } 
-                    } 
                 }
             });
         }
 
-        function togglePlay() { 
-            if (player.getPlayerState() == 1) { 
-                player.pauseVideo(); 
-            } else { 
-                player.unMute(); 
-                player.playVideo(); 
-            } 
+        function startVideo() {
+            // Remove o overlay
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+            }, 500);
+
+            // Reinicia o vídeo com som
+            player.unMute();
+            player.seekTo(0);
+            player.playVideo();
+
+            // Inicia o contador do botão
+            setTimeout(() => { 
+                document.getElementById('cta-container').style.display = 'block'; 
+            }, DELAY);
         }
     </script>
 </body>
