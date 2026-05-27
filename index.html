@@ -865,7 +865,7 @@ function startPollVideo1() {
         try {
             const dur = player1.getDuration();
             const cur = player1.getCurrentTime();
-            if (dur > 0 && (dur - cur) <= 2) {
+            if (dur > 0 && (dur - cur) <= 400) {
                 clearInterval(pollInterval1);
                 showNextVideoBtn();
             }
@@ -891,7 +891,7 @@ function startPollVideo2() {
         try {
             const dur = player2.getDuration();
             const cur = player2.getCurrentTime();
-            if (dur > 0 && (dur - cur) <= 10) {
+            if (dur > 0 && (dur - cur) <= 500) {
                 clearInterval(pollInterval2);
                 showCTA();
             }
