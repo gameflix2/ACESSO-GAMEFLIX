@@ -171,7 +171,7 @@
             opacity: 0;
         }
         .accordion.open {
-            max-height: 1000px;
+            max-height: 1200px;
             opacity: 1;
         }
 
@@ -198,7 +198,8 @@
             width: 100%;
             padding-bottom: 56.25%;
         }
-        .video-ratio #player {
+        .video-ratio iframe,
+        .video-ratio > div[id^="player"] {
             position: absolute;
             inset: 0;
             width: 100%;
@@ -213,6 +214,84 @@
             z-index: 10;
             cursor: default;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ─── CINEMA PLAY BUTTON OVERLAY ─────────────────────── */
+        .cinema-play-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.55);
+            transition: opacity 0.4s ease;
+        }
+        .cinema-play-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cinema-play-btn {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #ff3b3b, #c40812 70%);
+            border: 3px solid rgba(255,255,255,0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow:
+                0 0 0 0 rgba(229,9,20,0.7),
+                0 0 40px rgba(229,9,20,0.8),
+                0 0 80px rgba(229,9,20,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            animation: cinema-pulse 2s ease-in-out infinite;
+            transition: transform 0.2s ease;
+        }
+        .cinema-play-btn:hover {
+            transform: scale(1.1);
+            box-shadow:
+                0 0 0 0 rgba(229,9,20,0.9),
+                0 0 60px rgba(229,9,20,1),
+                0 0 120px rgba(229,9,20,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+        .cinema-play-btn svg {
+            width: 36px;
+            height: 36px;
+            fill: #fff;
+            margin-left: 5px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        /* Outer ring pulse */
+        .cinema-play-btn::before,
+        .cinema-play-btn::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(229,9,20,0.5);
+            animation: ring-expand 2s ease-out infinite;
+        }
+        .cinema-play-btn::after {
+            animation-delay: 1s;
+        }
+
+        @keyframes cinema-pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(229,9,20,0.7), 0 0 40px rgba(229,9,20,0.8), 0 0 80px rgba(229,9,20,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(229,9,20,0), 0 0 60px rgba(229,9,20,1), 0 0 120px rgba(229,9,20,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+            }
+        }
+
+        @keyframes ring-expand {
+            0% { width: 90px; height: 90px; opacity: 0.8; }
+            100% { width: 160px; height: 160px; opacity: 0; }
         }
 
         /* ─── SOUND ACTIVATION OVERLAY ───────────────────────── */
@@ -325,7 +404,7 @@
             align-items: center;
             gap: 14px;
             padding: 18px 48px;
-            max-width: 520px;
+            max-width: 560px;
             width: 100%;
             justify-content: center;
             font-family: 'Barlow Condensed', sans-serif;
@@ -371,6 +450,8 @@
             .cta-btn { font-size: 1.05rem; padding: 16px 20px; gap: 10px; }
             .sound-btn { font-size: 1rem; padding: 14px 24px; }
             .audio-card { padding: 14px 16px; }
+            .cinema-play-btn { width: 72px; height: 72px; }
+            .cinema-play-btn svg { width: 28px; height: 28px; }
         }
     </style>
 </head>
@@ -389,7 +470,6 @@
             <div class="wa-player">
                 <!-- Avatar -->
                 <div class="wa-avatar">
-                    <!-- Silhouette person icon -->
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
                     </svg>
@@ -410,65 +490,91 @@
         </div>
 
         <!-- Hidden audio element -->
-        <!--
-        ╔══════════════════════════════════════════════════════════╗
-        ║  INSIRA o link do áudio no atributo src abaixo:         ║
-        ║  <source src="LINK_DO_AUDIO_AQUI" type="audio/mpeg">    ║
-        ╚══════════════════════════════════════════════════════════╝
-        -->
         <audio id="waAudio" preload="auto">
-    <source src="https://res.cloudinary.com/dnponjtdn/video/upload/v1779844372/audio_xxipgp.mp3" type="audio/mpeg">
-</audio>
+            <source src="https://res.cloudinary.com/dnponjtdn/video/upload/v1779844372/audio_xxipgp.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
-    <!-- Accordion (video reveals after audio ends) -->
-    <div class="accordion" id="accordion">
+    <!-- ════════════════════════════════════════════════
+         ACCORDION 1 — PRIMEIRO VÍDEO
+         ════════════════════════════════════════════════ -->
+    <div class="accordion" id="accordion1">
         <div class="accordion-inner">
-
-            <!-- Video Card -->
             <div class="video-card">
 
-                <!-- Player -->
+                <!-- Player 1 -->
                 <div class="video-ratio">
-                    <div id="player"></div>
-                    <div class="video-blocker" id="blocker"></div>
+                    <div id="player1"></div>
+                    <div class="video-blocker" id="blocker1"></div>
                 </div>
 
-                <!-- Sound Activation Overlay -->
-                <div class="sound-overlay" id="soundOverlay">
-                    <button class="sound-btn" onclick="activateSound()">
+                <!-- Cinema Play Overlay (Video 1) -->
+                <div class="cinema-play-overlay" id="cinemaOverlay1">
+                    <button class="cinema-play-btn" id="cinemaPlayBtn1" onclick="startVideo1()">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77 0-4.28-2.99-7.86-7-8.77z"/>
+                            <path d="M8 5v14l11-7z"/>
                         </svg>
-                        Clique aqui para ativar o som
                     </button>
                 </div>
 
-                <!-- Progress bar -->
+                <!-- Progress bar 1 -->
                 <div class="progress-track">
-                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-fill" id="progressFill1"></div>
                 </div>
                 <div class="progress-meta">
-                    <span class="progress-label" id="progressLabel">Carregando acesso…</span>
-                    <span class="progress-pct" id="progressPct">0%</span>
+                    <span class="progress-label" id="progressLabel1">Aguardando reprodução…</span>
+                    <span class="progress-pct" id="progressPct1">0%</span>
                 </div>
 
             </div><!-- /.video-card -->
+        </div>
+    </div>
 
+    <!-- ════════════════════════════════════════════════
+         ACCORDION 2 — SEGUNDO VÍDEO
+         ════════════════════════════════════════════════ -->
+    <div class="accordion" id="accordion2">
+        <div class="accordion-inner">
+            <div class="video-card">
+
+                <!-- Player 2 -->
+                <div class="video-ratio">
+                    <div id="player2"></div>
+                    <div class="video-blocker" id="blocker2"></div>
+                </div>
+
+                <!-- Cinema Play Overlay (Video 2) -->
+                <div class="cinema-play-overlay" id="cinemaOverlay2">
+                    <button class="cinema-play-btn" id="cinemaPlayBtn2" onclick="startVideo2()">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Progress bar 2 -->
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill2"></div>
+                </div>
+                <div class="progress-meta">
+                    <span class="progress-label" id="progressLabel2">Carregando acesso…</span>
+                    <span class="progress-pct" id="progressPct2">0%</span>
+                </div>
+
+            </div><!-- /.video-card -->
         </div>
     </div>
 
 </div><!-- /.page -->
 
-<!-- WhatsApp CTA — appears 10s before end of 4:04 video (at 3:54 = 234s) -->
+<!-- WhatsApp CTA — aparece nos últimos 10s do segundo vídeo -->
 <div id="cta-wrap">
-    <a href="https://wa.me/553598102190?text=Assisti%20o%20v%C3%ADdeo%20e%20quero%20acessar%20a%20plataforma%20pelo%20meu%20computador"
+    <a href="https://wa.me/5553981021909?text=vi%20os%20videos%20da%20sua%20pagina%20e%20estou%20pronto%20para%20acessar%20a%20plataforma%20gameflix"
        class="cta-btn" id="ctaBtn" target="_blank">
-        <!-- WhatsApp SVG icon -->
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
-        Quero acessar a plataforma agora
+        QUERO ACESSAR A PLATAFORMA AGORA
     </a>
 </div>
 
@@ -478,18 +584,21 @@
     /* ═══════════════════════════════════════════════════════════
        CONFIGURAÇÃO
        ═══════════════════════════════════════════════════════════ */
-    const VIDEO_ID   = 'KafPt_O_LD0';  // vídeo: https://www.youtube.com/watch?v=KafPt_O_LD0
-    const VIDEO_DURATION = 244;         // 4 min 4 s = 244 segundos
-    const CTA_SECOND = 234;             // 10s antes do fim (244 - 10)
+    const VIDEO1_ID       = 'KafPt_O_LD0';
+    const VIDEO2_ID       = 'VXeYA-8Enps';
+    const VIDEO2_DURATION = 0;   // detectado automaticamente do player
     /* ═══════════════════════════════════════════════════════════ */
 
     // ─── STATE ───────────────────────────────────────────────────
-    let player;
-    let videoStarted     = false;
-    let soundActivated   = false;
-    let progressInterval = null;
-    let ctaTimer         = null;
-    let elapsedSec       = 0;
+    let player1, player2;
+    let video1Started        = false;
+    let video2Started        = false;
+    let progressInterval1    = null;
+    let progressInterval2    = null;
+    let ctaScheduled         = false;
+    let elapsed1             = 0;
+    let elapsed2             = 0;
+    let video2CtaTimer       = null;
 
     // ─── AUDIO PLAYER (WhatsApp style) ───────────────────────────
     const audio      = document.getElementById('waAudio');
@@ -545,35 +654,39 @@
 
     audio.addEventListener('ended', () => {
         playBtn.classList.remove('playing');
-        // Open accordion and init YouTube player
-        openAccordionAndStartVideo();
+        openAccordion1();
     });
 
-    // ─── ACCORDION + VIDEO INIT ───────────────────────────────────
-    function openAccordionAndStartVideo() {
-        const accordion = document.getElementById('accordion');
+    // ─── ACCORDION 1 — abre após o áudio terminar ─────────────────
+    function openAccordion1() {
+        const accordion = document.getElementById('accordion1');
         accordion.classList.add('open');
-
-        // Scroll to video smoothly
         setTimeout(() => {
             accordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
-
-        // YouTube player already created on page load (muted, auto-play)
-        // Start progress tracking
-        startFakeProgress();
-        scheduleCTA();
+        }, 350);
+        // Player já foi criado no onYouTubeIframeAPIReady, pausado.
+        // Apenas exibe o overlay — a barra NÃO inicia aqui.
     }
 
-    // ─── YOUTUBE PLAYER ───────────────────────────────────────────
+    // ─── ACCORDION 2 — abre após o primeiro vídeo terminar ────────
+    function openAccordion2() {
+        const accordion = document.getElementById('accordion2');
+        accordion.classList.add('open');
+        setTimeout(() => {
+            accordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 350);
+    }
+
+    // ─── YOUTUBE PLAYERS ──────────────────────────────────────────
     function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
+        // Player 1 — carrega pausado
+        player1 = new YT.Player('player1', {
             height: '100%',
             width:  '100%',
-            videoId: VIDEO_ID,
+            videoId: VIDEO1_ID,
             playerVars: {
-                autoplay:       1,
-                mute:           1,
+                autoplay:       0,
+                mute:           0,
                 controls:       0,
                 disablekb:      1,
                 rel:            0,
@@ -584,82 +697,183 @@
                 showinfo:       0,
             },
             events: {
-                onReady:       onPlayerReady,
-                onStateChange: onPlayerStateChange,
+                onReady:       onPlayer1Ready,
+                onStateChange: onPlayer1StateChange,
+            }
+        });
+
+        // Player 2 — carrega pausado
+        player2 = new YT.Player('player2', {
+            height: '100%',
+            width:  '100%',
+            videoId: VIDEO2_ID,
+            playerVars: {
+                autoplay:       0,
+                mute:           0,
+                controls:       0,
+                disablekb:      1,
+                rel:            0,
+                modestbranding: 1,
+                iv_load_policy: 3,
+                fs:             0,
+                playsinline:    1,
+                showinfo:       0,
+                start:          2,
+            },
+            events: {
+                onReady:       onPlayer2Ready,
+                onStateChange: onPlayer2StateChange,
             }
         });
     }
 
-    function onPlayerReady(e) {
-        // Video loads muted and plays in background silently
-        // Sound overlay is shown — user must click to activate sound
+    function onPlayer1Ready(e) {
+        // Player 1 pronto — fica pausado aguardando clique do usuário
+        try { e.target.pauseVideo(); } catch(_) {}
     }
 
-    function onPlayerStateChange(e) {
-        // Keep playing if paused externally
-        if (e.data === YT.PlayerState.PAUSED && videoStarted) {
-            setTimeout(() => { try { player.playVideo(); } catch(_){} }, 200);
+    function onPlayer2Ready(e) {
+        // Player 2 pronto — fica pausado
+        try { e.target.pauseVideo(); } catch(_) {}
+    }
+
+    function onPlayer1StateChange(e) {
+        // Vídeo 1 terminou
+        if (e.data === YT.PlayerState.ENDED) {
+            clearInterval(progressInterval1);
+            setProgressUI('progressFill1', 'progressPct1', 'progressLabel1', 100, 'Desbloqueado!');
+            openAccordion2();
+        }
+        // Impede pausa externa enquanto rodando
+        if (e.data === YT.PlayerState.PAUSED && video1Started) {
+            setTimeout(() => { try { player1.playVideo(); } catch(_){} }, 200);
         }
     }
 
-    // ─── SOUND ACTIVATION ─────────────────────────────────────────
-    function activateSound() {
-        if (soundActivated) return;
-        soundActivated = true;
-
-        document.getElementById('soundOverlay').classList.add('hidden');
-
-        try {
-            player.unMute();
-            player.seekTo(0, true);
-            player.playVideo();
-        } catch(err) { console.warn('Player not ready', err); }
-
-        videoStarted = true;
+    function onPlayer2StateChange(e) {
+        // Vídeo 2 terminou
+        if (e.data === YT.PlayerState.ENDED) {
+            clearInterval(progressInterval2);
+            setProgressUI('progressFill2', 'progressPct2', 'progressLabel2', 100, 'Acesso liberado!');
+            showCTA();
+        }
+        // Impede pausa externa enquanto rodando
+        if (e.data === YT.PlayerState.PAUSED && video2Started) {
+            setTimeout(() => { try { player2.playVideo(); } catch(_){} }, 200);
+        }
     }
 
-    // ─── FAKE PROGRESS BAR ────────────────────────────────────────
-    // Easing: rushes fast to ~70%, then crawls — keeps viewer engaged
-    // Uses a two-phase curve: rapid early growth, slow late growth
+    // ─── INICIAR VÍDEO 1 (clique no botão cinema) ─────────────────
+    function startVideo1() {
+        // Esconde overlay
+        const overlay = document.getElementById('cinemaOverlay1');
+        overlay.classList.add('hidden');
+
+        // Inicia o vídeo
+        try {
+            player1.playVideo();
+        } catch(err) { console.warn('Player1 not ready', err); }
+
+        video1Started = true;
+
+        // Inicia a barra de progresso SOMENTE após o clique
+        setProgressUI('progressFill1', 'progressPct1', 'progressLabel1', 0, 'Carregando acesso…');
+        startFakeProgress1();
+    }
+
+    // ─── INICIAR VÍDEO 2 (clique no botão cinema) ─────────────────
+    function startVideo2() {
+        // Esconde overlay
+        const overlay = document.getElementById('cinemaOverlay2');
+        overlay.classList.add('hidden');
+
+        // Inicia o vídeo
+        try {
+            player2.playVideo();
+        } catch(err) { console.warn('Player2 not ready', err); }
+
+        video2Started = true;
+
+        // Inicia a barra de progresso SOMENTE após o clique
+        setProgressUI('progressFill2', 'progressPct2', 'progressLabel2', 0, 'Carregando acesso…');
+        startFakeProgress2();
+        scheduleCtaVideo2();
+    }
+
+    // ─── FAKE PROGRESS — VÍDEO 1 ─────────────────────────────────
     function fakeProgressValue(elapsed) {
-        // Phase 1: rapid growth to ~65% in first 60s
-        // Phase 2: slow crawl from 65% to 95% over remaining time
         if (elapsed < 60) {
             return 65 * (1 - Math.exp(-0.06 * elapsed));
         } else {
-            const phase1 = 65 * (1 - Math.exp(-0.06 * 60)); // ~63.5
+            const phase1 = 65 * (1 - Math.exp(-0.06 * 60));
             const extra  = (95 - phase1) * (1 - Math.exp(-0.006 * (elapsed - 60)));
             return phase1 + extra;
         }
     }
 
-    function startFakeProgress() {
-        progressInterval = setInterval(() => {
-            elapsedSec += 0.5;
-            const pct = Math.min(fakeProgressValue(elapsedSec), 95);
-            setProgressUI(pct);
+    function startFakeProgress1() {
+        elapsed1 = 0;
+        clearInterval(progressInterval1);
+        progressInterval1 = setInterval(() => {
+            elapsed1 += 0.5;
+            const pct = Math.min(fakeProgressValue(elapsed1), 95);
+            setProgressUI('progressFill1', 'progressPct1', 'progressLabel1', pct, 'Carregando acesso…');
         }, 500);
     }
 
-    function setProgressUI(pct) {
-        const fill  = document.getElementById('progressFill');
-        const label = document.getElementById('progressPct');
-        if (fill)  fill.style.width = pct.toFixed(1) + '%';
-        if (label) label.textContent = Math.round(pct) + '%';
+    // ─── FAKE PROGRESS — VÍDEO 2 ─────────────────────────────────
+    // Curva: cresce rápido no início, desacelera, chega perto de 100% só no final
+    function fakeProgress2Value(elapsed) {
+        // Fase 1: rápida até ~70% nos primeiros 40s
+        if (elapsed < 40) {
+            return 70 * (1 - Math.exp(-0.08 * elapsed));
+        }
+        // Fase 2: lenta de ~70% até 95% no restante
+        const phase1 = 70 * (1 - Math.exp(-0.08 * 40));
+        const extra  = (97 - phase1) * (1 - Math.exp(-0.004 * (elapsed - 40)));
+        return phase1 + extra;
     }
 
-    // ─── SCHEDULE CTA ─────────────────────────────────────────────
-    function scheduleCTA() {
-        ctaTimer = setTimeout(showCTA, CTA_SECOND * 1000);
+    function startFakeProgress2() {
+        elapsed2 = 0;
+        clearInterval(progressInterval2);
+        progressInterval2 = setInterval(() => {
+            elapsed2 += 0.5;
+            const pct = Math.min(fakeProgress2Value(elapsed2), 97);
+            setProgressUI('progressFill2', 'progressPct2', 'progressLabel2', pct, 'Carregando acesso…');
+        }, 500);
+    }
+
+    // ─── CTA VÍDEO 2 — últimos 10 segundos ────────────────────────
+    function scheduleCtaVideo2() {
+        // Tenta via polling a posição real do player2
+        const ctaPollInterval = setInterval(() => {
+            if (!video2Started) return;
+            try {
+                const duration = player2.getDuration();
+                const current  = player2.getCurrentTime();
+                if (duration > 0 && (duration - current) <= 10) {
+                    clearInterval(ctaPollInterval);
+                    showCTA();
+                }
+            } catch(_) {}
+        }, 1000);
     }
 
     function showCTA() {
-        clearInterval(progressInterval);
-        setProgressUI(100);
-        const lbl = document.getElementById('progressLabel');
-        if (lbl) lbl.textContent = 'Acesso liberado!';
-
+        if (ctaScheduled) return;
+        ctaScheduled = true;
         document.getElementById('cta-wrap').classList.add('visible');
+    }
+
+    // ─── UTILIDADE: atualiza UI de barra ──────────────────────────
+    function setProgressUI(fillId, pctId, labelId, pct, labelText) {
+        const fill  = document.getElementById(fillId);
+        const label = document.getElementById(labelId);
+        const pctEl = document.getElementById(pctId);
+        if (fill)  fill.style.width  = pct.toFixed(1) + '%';
+        if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+        if (label && labelText) label.textContent = labelText;
     }
 
     // ─── BLOCK CONTEXT MENU ON VIDEO ─────────────────────────────
