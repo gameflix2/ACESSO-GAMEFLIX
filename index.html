@@ -549,7 +549,7 @@
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
             </svg>
-            ASSISTIR ÚLTIMO VÍDEO
+            GOSTEI, COMO FAÇO PARA ACESSAR?
         </button>
     </div>
 
@@ -865,7 +865,7 @@ function startPollVideo1() {
         try {
             const dur = player1.getDuration();
             const cur = player1.getCurrentTime();
-            if (dur > 0 && (dur - cur) <= 400) {
+            if (dur > 0 && (dur - cur) <= 4) {
                 clearInterval(pollInterval1);
                 showNextVideoBtn();
             }
@@ -891,7 +891,7 @@ function startPollVideo2() {
         try {
             const dur = player2.getDuration();
             const cur = player2.getCurrentTime();
-            if (dur > 0 && (dur - cur) <= 500) {
+            if (dur > 0 && (dur - cur) <= 44) {
                 clearInterval(pollInterval2);
                 showCTA();
             }
