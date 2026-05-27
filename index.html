@@ -488,7 +488,7 @@
 
     <!-- Headline -->
     <h1 class="headline">
-       Ouça o áudio abaixo para<br>liberar seu acesso à <em>Gameflixxxxxxx</em>
+       Ouça o áudio abaixo para<br>liberar seu acesso à <em>Gameflix</em>
     </h1>
 
     <!-- Audio Section -->
@@ -782,17 +782,23 @@ function cinematicEasing(t) {
     // [0.60, 0.85] → [60, 85] — leve ease-out
     // [0.85, 1.0] → [85, 100] — forte ease-out (lento)
 
-    if (t < 0.25) {
-        return t / 0.25 * 25;
+   if (t < 0.20) {
+        return (t / 0.20) * 25;
+
+    // 20% → 60% = ritmo contínuo natural
     } else if (t < 0.60) {
-        return 25 + (t - 0.25) / 0.35 * 35;
+        return 25 + ((t - 0.20) / 0.40) * 35;
+
+    // 60% → 85% = desaceleração suave
     } else if (t < 0.85) {
-        const u = (t - 0.60) / 0.25; // 0→1
-        const eased = 1 - Math.pow(1 - u, 1.6); // ease-out
+        const u = (t - 0.60) / 0.25;
+        const eased = 1 - Math.pow(1 - u, 1.6);
         return 60 + eased * 25;
+
+    // 85% → 100% = final cinematográfico lento
     } else {
-        const u = (t - 0.85) / 0.15; // 0→1
-        const eased = 1 - Math.pow(1 - u, 2.5); // forte ease-out
+        const u = (t - 0.85) / 0.15;
+        const eased = 1 - Math.pow(1 - u, 2.5);
         return 85 + eased * 15;
     }
 }
