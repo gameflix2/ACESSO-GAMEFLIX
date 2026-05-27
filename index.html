@@ -161,17 +161,17 @@
             color: rgba(255,255,255,0.45);
         }
 
-        /* ─── ACCORDION (video section) ──────────────────────── */
+        /* ─── ACCORDION ──────────────────────────────────────── */
         .accordion {
             width: 100%;
             max-width: 820px;
             overflow: hidden;
             max-height: 0;
-            transition: max-height 0.7s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease;
+            transition: max-height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.6s ease;
             opacity: 0;
         }
         .accordion.open {
-            max-height: 1200px;
+            max-height: 1400px;
             opacity: 1;
         }
 
@@ -225,7 +225,7 @@
             align-items: center;
             justify-content: center;
             background: rgba(0,0,0,0.55);
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
         }
         .cinema-play-overlay.hidden {
             opacity: 0;
@@ -244,7 +244,6 @@
             justify-content: center;
             position: relative;
             box-shadow:
-                0 0 0 0 rgba(229,9,20,0.7),
                 0 0 40px rgba(229,9,20,0.8),
                 0 0 80px rgba(229,9,20,0.4),
                 inset 0 1px 0 rgba(255,255,255,0.2);
@@ -253,11 +252,6 @@
         }
         .cinema-play-btn:hover {
             transform: scale(1.1);
-            box-shadow:
-                0 0 0 0 rgba(229,9,20,0.9),
-                0 0 60px rgba(229,9,20,1),
-                0 0 120px rgba(229,9,20,0.6),
-                inset 0 1px 0 rgba(255,255,255,0.2);
         }
         .cinema-play-btn svg {
             width: 36px;
@@ -267,7 +261,6 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
-        /* Outer ring pulse */
         .cinema-play-btn::before,
         .cinema-play-btn::after {
             content: '';
@@ -276,57 +269,95 @@
             border: 2px solid rgba(229,9,20,0.5);
             animation: ring-expand 2s ease-out infinite;
         }
-        .cinema-play-btn::after {
-            animation-delay: 1s;
-        }
+        .cinema-play-btn::after { animation-delay: 1s; }
 
         @keyframes cinema-pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(229,9,20,0.7), 0 0 40px rgba(229,9,20,0.8), 0 0 80px rgba(229,9,20,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-            }
-            50% {
-                box-shadow: 0 0 0 12px rgba(229,9,20,0), 0 0 60px rgba(229,9,20,1), 0 0 120px rgba(229,9,20,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
-            }
+            0%, 100% { box-shadow: 0 0 40px rgba(229,9,20,0.8), 0 0 80px rgba(229,9,20,0.4), inset 0 1px 0 rgba(255,255,255,0.2); }
+            50%       { box-shadow: 0 0 0 12px rgba(229,9,20,0), 0 0 70px rgba(229,9,20,1), 0 0 130px rgba(229,9,20,0.6), inset 0 1px 0 rgba(255,255,255,0.2); }
         }
-
         @keyframes ring-expand {
-            0% { width: 90px; height: 90px; opacity: 0.8; }
+            0%   { width: 90px;  height: 90px;  opacity: 0.8; }
             100% { width: 160px; height: 160px; opacity: 0; }
         }
 
-        /* ─── SOUND ACTIVATION OVERLAY ───────────────────────── */
-        .sound-overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 20;
-            background: rgba(0,0,0,0.78);
+        /* ─── "ASSISTIR ÚLTIMO VÍDEO" BUTTON ─────────────────── */
+        #next-video-wrap {
+            width: 100%;
+            max-width: 820px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            gap: 16px;
+            padding: 28px 16px 8px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
-        .sound-overlay.hidden { display: none; }
+        #next-video-wrap.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
 
-        .sound-btn {
+        .next-video-btn {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 16px 36px;
+            gap: 16px;
+            padding: 20px 52px;
+            max-width: 520px;
+            width: 100%;
+            justify-content: center;
             font-family: 'Barlow Condensed', sans-serif;
-            font-weight: 700;
-            font-size: 1.25rem;
-            letter-spacing: 0.08em;
+            font-weight: 900;
+            font-size: 1.35rem;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             color: #fff;
-            background: linear-gradient(135deg, #c40812 0%, #e50914 50%, #ff2a2a 100%);
-            border: none;
+            background: linear-gradient(135deg, #8b0000 0%, #c40812 40%, #e50914 70%, #ff2a2a 100%);
+            border: 2px solid rgba(255,80,80,0.3);
             border-radius: 6px;
             cursor: pointer;
-            box-shadow: 0 0 0 2px rgba(229,9,20,0.3), 0 0 40px rgba(229,9,20,0.5);
-            animation: pulse-btn 1.8s ease-in-out infinite;
+            box-shadow:
+                0 0 0 2px rgba(229,9,20,0.25),
+                0 0 50px rgba(229,9,20,0.7),
+                0 0 100px rgba(229,9,20,0.3),
+                0 6px 30px rgba(0,0,0,0.7);
+            animation: next-pulse 2s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
         }
-        .sound-btn svg { width: 22px; height: 22px; fill: #fff; }
+        .next-video-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        .next-video-btn svg {
+            width: 26px;
+            height: 26px;
+            fill: #fff;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
+        }
+        .next-video-btn:hover {
+            box-shadow:
+                0 0 0 2px rgba(229,9,20,0.5),
+                0 0 70px rgba(229,9,20,0.95),
+                0 0 140px rgba(229,9,20,0.5),
+                0 6px 30px rgba(0,0,0,0.7);
+        }
+
+        @keyframes next-pulse {
+            0%, 100% { box-shadow: 0 0 0 2px rgba(229,9,20,0.25), 0 0 50px rgba(229,9,20,0.7), 0 0 100px rgba(229,9,20,0.3), 0 6px 30px rgba(0,0,0,0.7); }
+            50%       { box-shadow: 0 0 0 4px rgba(229,9,20,0.5), 0 0 80px rgba(229,9,20,1),   0 0 150px rgba(229,9,20,0.5), 0 6px 30px rgba(0,0,0,0.7); }
+        }
+        @keyframes shimmer {
+            0%   { left: -100%; }
+            60%  { left: 150%; }
+            100% { left: 150%; }
+        }
 
         /* ─── PROGRESS BAR ───────────────────────────────────── */
         .progress-track {
@@ -341,7 +372,7 @@
             background: linear-gradient(90deg, #c40812, var(--red) 60%, #ff4444);
             border-radius: 0 2px 2px 0;
             box-shadow: 0 0 10px var(--red);
-            transition: width 0.5s linear;
+            transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
         .progress-fill::after {
@@ -430,10 +461,6 @@
         }
 
         /* ─── ANIMATIONS ─────────────────────────────────────── */
-        @keyframes pulse-btn {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0 2px rgba(229,9,20,0.3), 0 0 30px rgba(229,9,20,0.4); }
-            50%       { transform: scale(1.03); box-shadow: 0 0 0 2px rgba(229,9,20,0.5), 0 0 50px rgba(229,9,20,0.7); }
-        }
         @keyframes float-cta {
             0%, 100% { transform: translateY(0px); }
             50%       { transform: translateY(-6px); }
@@ -448,10 +475,10 @@
             .page { padding: 28px 8px 120px; }
             .video-card { border-radius: 6px; }
             .cta-btn { font-size: 1.05rem; padding: 16px 20px; gap: 10px; }
-            .sound-btn { font-size: 1rem; padding: 14px 24px; }
             .audio-card { padding: 14px 16px; }
             .cinema-play-btn { width: 72px; height: 72px; }
             .cinema-play-btn svg { width: 28px; height: 28px; }
+            .next-video-btn { font-size: 1.1rem; padding: 18px 20px; gap: 12px; }
         }
     </style>
 </head>
@@ -461,63 +488,50 @@
 
     <!-- Headline -->
     <h1 class="headline">
-       Ouça o áudio abaixo para<br>liberar seu acesso à <em>Gameflix</em>
+       Ouça o áudio abaixo para<br>liberar seu acesso à <em>Gameflixxxxxxx</em>
     </h1>
 
     <!-- Audio Section -->
     <div class="audio-section">
         <div class="audio-card">
             <div class="wa-player">
-                <!-- Avatar -->
                 <div class="wa-avatar">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
                     </svg>
                 </div>
-
-                <!-- Play/Pause -->
                 <button class="wa-play-btn" id="waPlayBtn" onclick="toggleAudio()">
                     <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                 </button>
-
-                <!-- Waveform + time -->
                 <div class="wa-waveform-wrap">
                     <div class="wa-waveform" id="waWaveform" onclick="seekAudio(event)"></div>
                     <span class="wa-time" id="waTime">0:00</span>
                 </div>
             </div>
         </div>
-
-        <!-- Hidden audio element -->
         <audio id="waAudio" preload="auto">
             <source src="https://res.cloudinary.com/dnponjtdn/video/upload/v1779844372/audio_xxipgp.mp3" type="audio/mpeg">
         </audio>
     </div>
 
-    <!-- ════════════════════════════════════════════════
-         ACCORDION 1 — PRIMEIRO VÍDEO
-         ════════════════════════════════════════════════ -->
+    <!-- ════ ACCORDION 1 — PRIMEIRO VÍDEO ════ -->
     <div class="accordion" id="accordion1">
         <div class="accordion-inner">
             <div class="video-card">
-
-                <!-- Player 1 -->
                 <div class="video-ratio">
                     <div id="player1"></div>
                     <div class="video-blocker" id="blocker1"></div>
                 </div>
 
-                <!-- Cinema Play Overlay (Video 1) -->
+                <!-- Cinema Play Overlay — Vídeo 1 -->
                 <div class="cinema-play-overlay" id="cinemaOverlay1">
                     <button class="cinema-play-btn" id="cinemaPlayBtn1" onclick="startVideo1()">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </button>
                 </div>
 
-                <!-- Progress bar 1 -->
+                <!-- Progress Bar 1 -->
                 <div class="progress-track">
                     <div class="progress-fill" id="progressFill1"></div>
                 </div>
@@ -525,34 +539,37 @@
                     <span class="progress-label" id="progressLabel1">Aguardando reprodução…</span>
                     <span class="progress-pct" id="progressPct1">0%</span>
                 </div>
-
-            </div><!-- /.video-card -->
+            </div>
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════
-         ACCORDION 2 — SEGUNDO VÍDEO
-         ════════════════════════════════════════════════ -->
+    <!-- Botão "ASSISTIR ÚLTIMO VÍDEO" — aparece 2s antes do fim do vídeo 1 -->
+    <div id="next-video-wrap">
+        <button class="next-video-btn" onclick="revealAccordion2()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+            </svg>
+            ASSISTIR ÚLTIMO VÍDEO
+        </button>
+    </div>
+
+    <!-- ════ ACCORDION 2 — SEGUNDO VÍDEO ════ -->
     <div class="accordion" id="accordion2">
         <div class="accordion-inner">
             <div class="video-card">
-
-                <!-- Player 2 -->
                 <div class="video-ratio">
                     <div id="player2"></div>
                     <div class="video-blocker" id="blocker2"></div>
                 </div>
 
-                <!-- Cinema Play Overlay (Video 2) -->
+                <!-- Cinema Play Overlay — Vídeo 2 -->
                 <div class="cinema-play-overlay" id="cinemaOverlay2">
                     <button class="cinema-play-btn" id="cinemaPlayBtn2" onclick="startVideo2()">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </button>
                 </div>
 
-                <!-- Progress bar 2 -->
+                <!-- Progress Bar 2 -->
                 <div class="progress-track">
                     <div class="progress-fill" id="progressFill2"></div>
                 </div>
@@ -560,14 +577,13 @@
                     <span class="progress-label" id="progressLabel2">Carregando acesso…</span>
                     <span class="progress-pct" id="progressPct2">0%</span>
                 </div>
-
-            </div><!-- /.video-card -->
+            </div>
         </div>
     </div>
 
 </div><!-- /.page -->
 
-<!-- WhatsApp CTA — aparece nos últimos 10s do segundo vídeo -->
+<!-- WhatsApp CTA — últimos 10s do segundo vídeo -->
 <div id="cta-wrap">
     <a href="https://wa.me/5553981021909?text=vi%20os%20videos%20da%20sua%20pagina%20e%20estou%20pronto%20para%20acessar%20a%20plataforma%20gameflix"
        class="cta-btn" id="ctaBtn" target="_blank">
@@ -578,313 +594,318 @@
     </a>
 </div>
 
-<!-- YouTube IFrame API -->
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    /* ═══════════════════════════════════════════════════════════
-       CONFIGURAÇÃO
-       ═══════════════════════════════════════════════════════════ */
-    const VIDEO1_ID       = 'KafPt_O_LD0';
-    const VIDEO2_ID       = 'VXeYA-8Enps';
-    const VIDEO2_DURATION = 0;   // detectado automaticamente do player
-    /* ═══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   CONFIGURAÇÃO
+══════════════════════════════════════════════════════ */
+const VIDEO1_ID = 'KafPt_O_LD0';
+const VIDEO2_ID = 'VXeYA-8Enps';
 
-    // ─── STATE ───────────────────────────────────────────────────
-    let player1, player2;
-    let video1Started        = false;
-    let video2Started        = false;
-    let progressInterval1    = null;
-    let progressInterval2    = null;
-    let ctaScheduled         = false;
-    let elapsed1             = 0;
-    let elapsed2             = 0;
-    let video2CtaTimer       = null;
+/* ══════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════ */
+let player1, player2;
+let video1Started      = false;
+let video2Started      = false;
+let progressRaf1       = null;   // requestAnimationFrame handle
+let progressRaf2       = null;
+let ctaScheduled       = false;
+let nextBtnShown       = false;
+let pollInterval1      = null;
+let pollInterval2      = null;
 
-    // ─── AUDIO PLAYER (WhatsApp style) ───────────────────────────
-    const audio      = document.getElementById('waAudio');
-    const playBtn    = document.getElementById('waPlayBtn');
-    const timeLabel  = document.getElementById('waTime');
-    const waveform   = document.getElementById('waWaveform');
+/* ══════════════════════════════════════════════════════
+   AUDIO PLAYER
+══════════════════════════════════════════════════════ */
+const audio     = document.getElementById('waAudio');
+const playBtn   = document.getElementById('waPlayBtn');
+const timeLabel = document.getElementById('waTime');
+const waveform  = document.getElementById('waWaveform');
 
-    // Generate fake waveform bars
-    (function buildWaveform() {
-        const heights = [3,5,8,12,18,22,26,30,28,24,18,14,20,27,33,28,22,17,25,32,36,30,24,19,26,34,28,22,16,18,25,30,26,20,15,22,28,24,18,14,20,26,22,16,12,18,24,20];
-        heights.forEach(h => {
-            const bar = document.createElement('div');
-            bar.className = 'wa-bar';
-            bar.style.height = (h / 36 * 26 + 4) + 'px';
-            waveform.appendChild(bar);
-        });
-    })();
+(function buildWaveform() {
+    const heights = [3,5,8,12,18,22,26,30,28,24,18,14,20,27,33,28,22,17,25,32,36,30,24,19,26,34,28,22,16,18,25,30,26,20,15,22,28,24,18,14,20,26,22,16,12,18,24,20];
+    heights.forEach(h => {
+        const bar = document.createElement('div');
+        bar.className = 'wa-bar';
+        bar.style.height = (h / 36 * 26 + 4) + 'px';
+        waveform.appendChild(bar);
+    });
+})();
 
-    function formatTime(sec) {
-        const m = Math.floor(sec / 60);
-        const s = Math.floor(sec % 60);
-        return m + ':' + String(s).padStart(2,'0');
-    }
+function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return m + ':' + String(s).padStart(2,'0');
+}
 
-    function updateWaveformProgress() {
-        const bars = waveform.querySelectorAll('.wa-bar');
-        const pct  = audio.duration ? audio.currentTime / audio.duration : 0;
-        const playedCount = Math.floor(pct * bars.length);
-        bars.forEach((b, i) => {
-            b.classList.toggle('played', i < playedCount);
-        });
-        timeLabel.textContent = formatTime(audio.currentTime);
-    }
+function updateWaveformProgress() {
+    const bars = waveform.querySelectorAll('.wa-bar');
+    const pct  = audio.duration ? audio.currentTime / audio.duration : 0;
+    const n    = Math.floor(pct * bars.length);
+    bars.forEach((b, i) => b.classList.toggle('played', i < n));
+    timeLabel.textContent = formatTime(audio.currentTime);
+}
 
-    function toggleAudio() {
-        if (audio.paused) {
-            audio.play();
-            playBtn.classList.add('playing');
-        } else {
-            audio.pause();
-            playBtn.classList.remove('playing');
-        }
-    }
+function toggleAudio() {
+    if (audio.paused) { audio.play(); playBtn.classList.add('playing'); }
+    else              { audio.pause(); playBtn.classList.remove('playing'); }
+}
 
-    function seekAudio(e) {
-        if (!audio.duration) return;
-        const rect = waveform.getBoundingClientRect();
-        const pct  = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = pct * audio.duration;
-    }
+function seekAudio(e) {
+    if (!audio.duration) return;
+    const rect = waveform.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+}
 
-    audio.addEventListener('timeupdate', updateWaveformProgress);
+audio.addEventListener('timeupdate', updateWaveformProgress);
+audio.addEventListener('ended', () => {
+    playBtn.classList.remove('playing');
+    openAccordion1();
+});
 
-    audio.addEventListener('ended', () => {
-        playBtn.classList.remove('playing');
-        openAccordion1();
+/* ══════════════════════════════════════════════════════
+   ACCORDION 1 — abre após o áudio terminar
+══════════════════════════════════════════════════════ */
+function openAccordion1() {
+    const acc = document.getElementById('accordion1');
+    acc.classList.add('open');
+    setTimeout(() => acc.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
+    // Overlay de play já aparece, barra NÃO inicia
+}
+
+/* ══════════════════════════════════════════════════════
+   ACCORDION 2 — abre ao clicar no botão
+══════════════════════════════════════════════════════ */
+function revealAccordion2() {
+    // Para o vídeo 1 ao abrir o 2
+    try { player1.pauseVideo(); } catch(_) {}
+    clearInterval(pollInterval1);
+    cancelAnimationFrame(progressRaf1);
+
+    const acc = document.getElementById('accordion2');
+    acc.classList.add('open');
+    setTimeout(() => acc.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
+}
+
+/* ══════════════════════════════════════════════════════
+   YOUTUBE API
+══════════════════════════════════════════════════════ */
+function onYouTubeIframeAPIReady() {
+    player1 = new YT.Player('player1', {
+        height: '100%', width: '100%',
+        videoId: VIDEO1_ID,
+        playerVars: { autoplay:0, mute:0, controls:0, disablekb:1, rel:0, modestbranding:1, iv_load_policy:3, fs:0, playsinline:1, showinfo:0 },
+        events: { onReady: onPlayer1Ready, onStateChange: onPlayer1StateChange }
     });
 
-    // ─── ACCORDION 1 — abre após o áudio terminar ─────────────────
-    function openAccordion1() {
-        const accordion = document.getElementById('accordion1');
-        accordion.classList.add('open');
-        setTimeout(() => {
-            accordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 350);
-        // Player já foi criado no onYouTubeIframeAPIReady, pausado.
-        // Apenas exibe o overlay — a barra NÃO inicia aqui.
+    player2 = new YT.Player('player2', {
+        height: '100%', width: '100%',
+        videoId: VIDEO2_ID,
+        playerVars: { autoplay:0, mute:0, controls:0, disablekb:1, rel:0, modestbranding:1, iv_load_policy:3, fs:0, playsinline:1, showinfo:0, start:2 },
+        events: { onReady: onPlayer2Ready, onStateChange: onPlayer2StateChange }
+    });
+}
+
+function onPlayer1Ready(e) { try { e.target.pauseVideo(); } catch(_) {} }
+function onPlayer2Ready(e) { try { e.target.pauseVideo(); } catch(_) {} }
+
+function onPlayer1StateChange(e) {
+    if (e.data === YT.PlayerState.ENDED) {
+        clearInterval(pollInterval1);
+        cancelAnimationFrame(progressRaf1);
+        setProgressUI('progressFill1','progressPct1','progressLabel1', 100, 'Desbloqueado!');
+        // Garante que botão apareça ao terminar (caso não tenha aparecido ainda)
+        showNextVideoBtn();
     }
-
-    // ─── ACCORDION 2 — abre após o primeiro vídeo terminar ────────
-    function openAccordion2() {
-        const accordion = document.getElementById('accordion2');
-        accordion.classList.add('open');
-        setTimeout(() => {
-            accordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 350);
+    if (e.data === YT.PlayerState.PAUSED && video1Started) {
+        setTimeout(() => { try { player1.playVideo(); } catch(_){} }, 200);
     }
+}
 
-    // ─── YOUTUBE PLAYERS ──────────────────────────────────────────
-    function onYouTubeIframeAPIReady() {
-        // Player 1 — carrega pausado
-        player1 = new YT.Player('player1', {
-            height: '100%',
-            width:  '100%',
-            videoId: VIDEO1_ID,
-            playerVars: {
-                autoplay:       0,
-                mute:           0,
-                controls:       0,
-                disablekb:      1,
-                rel:            0,
-                modestbranding: 1,
-                iv_load_policy: 3,
-                fs:             0,
-                playsinline:    1,
-                showinfo:       0,
-            },
-            events: {
-                onReady:       onPlayer1Ready,
-                onStateChange: onPlayer1StateChange,
-            }
-        });
-
-        // Player 2 — carrega pausado
-        player2 = new YT.Player('player2', {
-            height: '100%',
-            width:  '100%',
-            videoId: VIDEO2_ID,
-            playerVars: {
-                autoplay:       0,
-                mute:           0,
-                controls:       0,
-                disablekb:      1,
-                rel:            0,
-                modestbranding: 1,
-                iv_load_policy: 3,
-                fs:             0,
-                playsinline:    1,
-                showinfo:       0,
-                start:          2,
-            },
-            events: {
-                onReady:       onPlayer2Ready,
-                onStateChange: onPlayer2StateChange,
-            }
-        });
+function onPlayer2StateChange(e) {
+    if (e.data === YT.PlayerState.ENDED) {
+        clearInterval(pollInterval2);
+        cancelAnimationFrame(progressRaf2);
+        setProgressUI('progressFill2','progressPct2','progressLabel2', 100, 'Acesso liberado!');
+        showCTA();
     }
-
-    function onPlayer1Ready(e) {
-        // Player 1 pronto — fica pausado aguardando clique do usuário
-        try { e.target.pauseVideo(); } catch(_) {}
+    if (e.data === YT.PlayerState.PAUSED && video2Started) {
+        setTimeout(() => { try { player2.playVideo(); } catch(_){} }, 200);
     }
+}
 
-    function onPlayer2Ready(e) {
-        // Player 2 pronto — fica pausado
-        try { e.target.pauseVideo(); } catch(_) {}
+/* ══════════════════════════════════════════════════════
+   INICIAR VÍDEO 1
+══════════════════════════════════════════════════════ */
+function startVideo1() {
+    document.getElementById('cinemaOverlay1').classList.add('hidden');
+    try { player1.playVideo(); } catch(err) { console.warn(err); }
+    video1Started = true;
+    setProgressUI('progressFill1','progressPct1','progressLabel1', 0, 'Carregando acesso…');
+    startRealProgress1();
+    startPollVideo1();
+}
+
+/* ══════════════════════════════════════════════════════
+   INICIAR VÍDEO 2
+══════════════════════════════════════════════════════ */
+function startVideo2() {
+    document.getElementById('cinemaOverlay2').classList.add('hidden');
+    try { player2.playVideo(); } catch(err) { console.warn(err); }
+    video2Started = true;
+    setProgressUI('progressFill2','progressPct2','progressLabel2', 0, 'Carregando acesso…');
+    startRealProgress2();
+    startPollVideo2();
+}
+
+/* ══════════════════════════════════════════════════════
+   BARRA DE PROGRESSO — SINCRONIZADA COM TEMPO REAL
+   Curva cinematográfica:
+     0%→25%: crescimento confortável
+     25%→60%: ritmo médio contínuo
+     60%→85%: leve desaceleração
+     85%→100%: progresso lento, cinematográfico
+   Fórmula: mapeamento via easing cúbico sobre (currentTime / duration)
+══════════════════════════════════════════════════════ */
+
+// t = [0,1] → pct = [0,100] com curva cinematográfica
+function cinematicEasing(t) {
+    // Curva: inicio suave, meio constante, fim desacelerado
+    // Baseado em cubic bezier adaptado
+    if (t <= 0) return 0;
+    if (t >= 1) return 100;
+
+    // Mapeamento de zonas:
+    // [0, 0.25] → [0, 25]   — linear normal
+    // [0.25, 0.60] → [25, 60] — linear normal
+    // [0.60, 0.85] → [60, 85] — leve ease-out
+    // [0.85, 1.0] → [85, 100] — forte ease-out (lento)
+
+    if (t < 0.25) {
+        return t / 0.25 * 25;
+    } else if (t < 0.60) {
+        return 25 + (t - 0.25) / 0.35 * 35;
+    } else if (t < 0.85) {
+        const u = (t - 0.60) / 0.25; // 0→1
+        const eased = 1 - Math.pow(1 - u, 1.6); // ease-out
+        return 60 + eased * 25;
+    } else {
+        const u = (t - 0.85) / 0.15; // 0→1
+        const eased = 1 - Math.pow(1 - u, 2.5); // forte ease-out
+        return 85 + eased * 15;
     }
+}
 
-    function onPlayer1StateChange(e) {
-        // Vídeo 1 terminou
-        if (e.data === YT.PlayerState.ENDED) {
-            clearInterval(progressInterval1);
-            setProgressUI('progressFill1', 'progressPct1', 'progressLabel1', 100, 'Desbloqueado!');
-            openAccordion2();
-        }
-        // Impede pausa externa enquanto rodando
-        if (e.data === YT.PlayerState.PAUSED && video1Started) {
-            setTimeout(() => { try { player1.playVideo(); } catch(_){} }, 200);
-        }
-    }
-
-    function onPlayer2StateChange(e) {
-        // Vídeo 2 terminou
-        if (e.data === YT.PlayerState.ENDED) {
-            clearInterval(progressInterval2);
-            setProgressUI('progressFill2', 'progressPct2', 'progressLabel2', 100, 'Acesso liberado!');
-            showCTA();
-        }
-        // Impede pausa externa enquanto rodando
-        if (e.data === YT.PlayerState.PAUSED && video2Started) {
-            setTimeout(() => { try { player2.playVideo(); } catch(_){} }, 200);
-        }
-    }
-
-    // ─── INICIAR VÍDEO 1 (clique no botão cinema) ─────────────────
-    function startVideo1() {
-        // Esconde overlay
-        const overlay = document.getElementById('cinemaOverlay1');
-        overlay.classList.add('hidden');
-
-        // Inicia o vídeo
+function startRealProgress1() {
+    cancelAnimationFrame(progressRaf1);
+    function tick() {
+        if (!video1Started) return;
         try {
-            player1.playVideo();
-        } catch(err) { console.warn('Player1 not ready', err); }
-
-        video1Started = true;
-
-        // Inicia a barra de progresso SOMENTE após o clique
-        setProgressUI('progressFill1', 'progressPct1', 'progressLabel1', 0, 'Carregando acesso…');
-        startFakeProgress1();
+            const dur = player1.getDuration();
+            const cur = player1.getCurrentTime();
+            if (dur > 0) {
+                const t   = Math.min(cur / dur, 1);
+                const pct = cinematicEasing(t);
+                setProgressUI('progressFill1','progressPct1','progressLabel1', pct, 'Carregando acesso…');
+            }
+        } catch(_) {}
+        progressRaf1 = requestAnimationFrame(tick);
     }
+    progressRaf1 = requestAnimationFrame(tick);
+}
 
-    // ─── INICIAR VÍDEO 2 (clique no botão cinema) ─────────────────
-    function startVideo2() {
-        // Esconde overlay
-        const overlay = document.getElementById('cinemaOverlay2');
-        overlay.classList.add('hidden');
-
-        // Inicia o vídeo
+function startRealProgress2() {
+    cancelAnimationFrame(progressRaf2);
+    function tick() {
+        if (!video2Started) return;
         try {
-            player2.playVideo();
-        } catch(err) { console.warn('Player2 not ready', err); }
-
-        video2Started = true;
-
-        // Inicia a barra de progresso SOMENTE após o clique
-        setProgressUI('progressFill2', 'progressPct2', 'progressLabel2', 0, 'Carregando acesso…');
-        startFakeProgress2();
-        scheduleCtaVideo2();
+            const dur = player2.getDuration();
+            const cur = player2.getCurrentTime();
+            if (dur > 0) {
+                const t   = Math.min(cur / dur, 1);
+                const pct = cinematicEasing(t);
+                setProgressUI('progressFill2','progressPct2','progressLabel2', pct, 'Carregando acesso…');
+            }
+        } catch(_) {}
+        progressRaf2 = requestAnimationFrame(tick);
     }
+    progressRaf2 = requestAnimationFrame(tick);
+}
 
-    // ─── FAKE PROGRESS — VÍDEO 1 ─────────────────────────────────
-    function fakeProgressValue(elapsed) {
-        if (elapsed < 60) {
-            return 65 * (1 - Math.exp(-0.06 * elapsed));
-        } else {
-            const phase1 = 65 * (1 - Math.exp(-0.06 * 60));
-            const extra  = (95 - phase1) * (1 - Math.exp(-0.006 * (elapsed - 60)));
-            return phase1 + extra;
-        }
-    }
+/* ══════════════════════════════════════════════════════
+   POLLING — BOTÃO "ÚLTIMO VÍDEO" (2s antes do fim do vídeo 1)
+══════════════════════════════════════════════════════ */
+function startPollVideo1() {
+    clearInterval(pollInterval1);
+    pollInterval1 = setInterval(() => {
+        if (!video1Started) return;
+        try {
+            const dur = player1.getDuration();
+            const cur = player1.getCurrentTime();
+            if (dur > 0 && (dur - cur) <= 2) {
+                clearInterval(pollInterval1);
+                showNextVideoBtn();
+            }
+        } catch(_) {}
+    }, 500);
+}
 
-    function startFakeProgress1() {
-        elapsed1 = 0;
-        clearInterval(progressInterval1);
-        progressInterval1 = setInterval(() => {
-            elapsed1 += 0.5;
-            const pct = Math.min(fakeProgressValue(elapsed1), 95);
-            setProgressUI('progressFill1', 'progressPct1', 'progressLabel1', pct, 'Carregando acesso…');
-        }, 500);
-    }
+function showNextVideoBtn() {
+    if (nextBtnShown) return;
+    nextBtnShown = true;
+    const wrap = document.getElementById('next-video-wrap');
+    wrap.classList.add('visible');
+    setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 400);
+}
 
-    // ─── FAKE PROGRESS — VÍDEO 2 ─────────────────────────────────
-    // Curva: cresce rápido no início, desacelera, chega perto de 100% só no final
-    function fakeProgress2Value(elapsed) {
-        // Fase 1: rápida até ~70% nos primeiros 40s
-        if (elapsed < 40) {
-            return 70 * (1 - Math.exp(-0.08 * elapsed));
-        }
-        // Fase 2: lenta de ~70% até 95% no restante
-        const phase1 = 70 * (1 - Math.exp(-0.08 * 40));
-        const extra  = (97 - phase1) * (1 - Math.exp(-0.004 * (elapsed - 40)));
-        return phase1 + extra;
-    }
+/* ══════════════════════════════════════════════════════
+   POLLING — CTA (últimos 10s do vídeo 2)
+══════════════════════════════════════════════════════ */
+function startPollVideo2() {
+    clearInterval(pollInterval2);
+    pollInterval2 = setInterval(() => {
+        if (!video2Started) return;
+        try {
+            const dur = player2.getDuration();
+            const cur = player2.getCurrentTime();
+            if (dur > 0 && (dur - cur) <= 10) {
+                clearInterval(pollInterval2);
+                showCTA();
+            }
+        } catch(_) {}
+    }, 1000);
+}
 
-    function startFakeProgress2() {
-        elapsed2 = 0;
-        clearInterval(progressInterval2);
-        progressInterval2 = setInterval(() => {
-            elapsed2 += 0.5;
-            const pct = Math.min(fakeProgress2Value(elapsed2), 97);
-            setProgressUI('progressFill2', 'progressPct2', 'progressLabel2', pct, 'Carregando acesso…');
-        }, 500);
-    }
+function showCTA() {
+    if (ctaScheduled) return;
+    ctaScheduled = true;
+    document.getElementById('cta-wrap').classList.add('visible');
+}
 
-    // ─── CTA VÍDEO 2 — últimos 10 segundos ────────────────────────
-    function scheduleCtaVideo2() {
-        // Tenta via polling a posição real do player2
-        const ctaPollInterval = setInterval(() => {
-            if (!video2Started) return;
-            try {
-                const duration = player2.getDuration();
-                const current  = player2.getCurrentTime();
-                if (duration > 0 && (duration - current) <= 10) {
-                    clearInterval(ctaPollInterval);
-                    showCTA();
-                }
-            } catch(_) {}
-        }, 1000);
-    }
+/* ══════════════════════════════════════════════════════
+   UTILIDADE
+══════════════════════════════════════════════════════ */
+function setProgressUI(fillId, pctId, labelId, pct, labelText) {
+    const fill  = document.getElementById(fillId);
+    const pctEl = document.getElementById(pctId);
+    const label = document.getElementById(labelId);
+    if (fill)  fill.style.width  = pct.toFixed(2) + '%';
+    if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+    if (label && labelText) label.textContent = labelText;
+}
 
-    function showCTA() {
-        if (ctaScheduled) return;
-        ctaScheduled = true;
-        document.getElementById('cta-wrap').classList.add('visible');
-    }
+/* ══════════════════════════════════════════════════════
+   BLOQUEIOS DE SEGURANÇA
+══════════════════════════════════════════════════════ */
+document.addEventListener('contextmenu', e => {
+    if (e.target.closest('.video-card')) e.preventDefault();
+});
 
-    // ─── UTILIDADE: atualiza UI de barra ──────────────────────────
-    function setProgressUI(fillId, pctId, labelId, pct, labelText) {
-        const fill  = document.getElementById(fillId);
-        const label = document.getElementById(labelId);
-        const pctEl = document.getElementById(pctId);
-        if (fill)  fill.style.width  = pct.toFixed(1) + '%';
-        if (pctEl) pctEl.textContent = Math.round(pct) + '%';
-        if (label && labelText) label.textContent = labelText;
-    }
-
-    // ─── BLOCK CONTEXT MENU ON VIDEO ─────────────────────────────
-    document.addEventListener('contextmenu', e => {
-        if (e.target.closest('.video-card')) e.preventDefault();
-    });
-
-    document.addEventListener('keydown', e => {
-        const blocked = [' ', 'k', 'K', 'ArrowLeft', 'ArrowRight', 'j', 'J', 'l', 'L', 'f', 'F', 'm', 'M'];
-        if (blocked.includes(e.key)) e.preventDefault();
-    });
+document.addEventListener('keydown', e => {
+    const blocked = [' ','k','K','ArrowLeft','ArrowRight','j','J','l','L','f','F','m','M'];
+    if (blocked.includes(e.key)) e.preventDefault();
+});
 </script>
 </body>
 </html>
